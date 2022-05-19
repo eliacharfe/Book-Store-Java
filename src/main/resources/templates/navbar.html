@@ -1,0 +1,55 @@
+<div th:fragment="navbar">
+
+    <nav class="navbar navbar-expand-lg backLightBlue">
+        <div class="container-fluid">
+        <span><img class="imgLogo"
+                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8YhKL56P1qXuIhjeZOwZmXOCxyMTx5raQBQ&usqp=CAU"></span>
+            <h3 class="navbar-brand"><b><i>My Book Store</i></b></h3>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon my-navbar-toggler-icon "></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">
+                            <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Administrator</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+                <a class="nav-link disabled right-text-align mr-auto" href="#" tabindex="-1" aria-disabled="true"></a>
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <h5 class="nav-link right-text-align mr-auto" tabindex="-1"
+                            th:text="${countBasketItems}"></h5>
+                    </li>
+                    <li class="nav-item">
+                        <form action="#" th:action="@{/basketshopping}" method="post">
+                            <input type="hidden" name="id">
+                            <span class="mr-2">
+                         <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
+                    </span>
+                            <input class="btn btn-grey" type="submit" value="Show Basket"/>
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+
+    </nav>
+
+    <nav class="navbar navbar-expand-lg bg-primary "></nav>
+    <nav class="navbar navbar-expand-lg bg-primary "></nav>
+
+</div>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header"></head>
+
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-3 col-md-3 mt-4"></div>
+        <div class="col-xl-6 col-md-6">
+            <h1 class="my-5">Thank you for your purchase!</h1>
+            <div class="text-center">
+                <a class="btn btn-grey my-3" href="/">Back To Home Page</a>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-3 mt-4"></div>
+
+    </div>
+</div>
+</div>
+</body>
+
+<div th:replace="footer :: footer"></div>
+</html>

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 
 @Controller
@@ -16,6 +15,7 @@ public class BookController {
 
     @Value("${index.message}")
     private String message;
+
     private Integer countBasketItems = 0;
 
     @Autowired
@@ -25,25 +25,33 @@ public class BookController {
         return repository;
     }
 
+    @GetMapping("/navbar")
+    public String getNavbar(Model model) {
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+      return "navbar";
+  }
+
     @GetMapping("/")
     public String main(Model model) {
-        model.addAttribute("message", message);
+//        model.addAttribute("message", message);
         model.addAttribute("countBasketItems", countBasketItems.toString());
-        model.addAttribute("books", getRepo().findAll());
-        return "welcome"; //view
+       // model.addAttribute("books", getRepo().findAll());
+        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
+        return "welcome";
     }
 
     @GetMapping("/login")
     public String showSignUpForm(Model model) {
-        //model.addAttribute("user", new User("noname","noemail"));
         model.addAttribute("books", getRepo().findAll());
         return "admin";
     }
 
     @GetMapping("/addnewbookform")
     public String addNewBook(@Valid Book book, BindingResult result, Model model) {
-        model.addAttribute("book", new Book("noname","noimage", 1,  35l, 6l));
-        model.addAttribute("books", getRepo().findAll());
+        model.addAttribute("book", new Book("noname",
+                "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg",
+                1,  35l, 6l));
+        //model.addAttribute("books", getRepo().findAll());
         return "add-book";
     }
 
@@ -52,7 +60,6 @@ public class BookController {
         if (result.hasErrors()) {
             return "add-book";
         }
-
         getRepo().save(book);
         model.addAttribute("books", getRepo().findAll());
         return "admin";
@@ -60,10 +67,7 @@ public class BookController {
 
     @PostMapping("/edit")
     public String editUser(@RequestParam("id") long id, Model model) {
-
         Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-
-        // the name "user"  is bound to the VIEW
         model.addAttribute("book", book);
         return "update-book";
     }
@@ -74,7 +78,6 @@ public class BookController {
             book.setId(id);
             return "update-book";
         }
-
         getRepo().save(book);
         model.addAttribute("books", getRepo().findAll());
         return "admin";
@@ -93,90 +96,26 @@ public class BookController {
     }
 
 
-    @GetMapping("/add-to-basket")
+    @PostMapping("/add-to-basket")
     public String increaseBasket(@RequestParam("id") long id, Model model) {
         countBasketItems++;
         model.addAttribute("countBasketItems", countBasketItems.toString());
+        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
         return "welcome";
     }
 
+    @PostMapping("/basketshopping")
+    public String basketShoppingList(Model model) {
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
+        return "basket-shopping-list";
+    }
 
-
-
-//    @GetMapping("/")
-//    public String main(Book book, Model model) {
-//        model.addAttribute("course", someProperty);
-//
-//        // the name "books"  is bound to the VIEW
-//        model.addAttribute("books", getRepo().findAll());
-//        return "index";
-//    }
-
-//    @GetMapping("/signup")
-//    public String showSignUpForm(Book user, Model model) {
-//        //model.addAttribute("user", new User("noname","noemail"));
-//        return "add-user";
-//    }
-//
-//    @PostMapping("/adduser")
-//    public String addBook(@Valid Book book, BindingResult result, Model model) {
-//        if (result.hasErrors()) {
-//            return "add-user";
-//        }
-//
-//        getRepo().save(book);
-//        model.addAttribute("books", getRepo().findAll());
-//        return "index";
-//    }
-
-
-//    @PostMapping("/edit")
-//    public String editBook(@RequestParam("id") long id, Model model) {
-//
-//        Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-//
-//        // the name "book"  is bound to the VIEW
-//        model.addAttribute("book", book);
-//        return "update-user";
-//    }
-//
-//    @PostMapping("/update/{id}")
-//    public String updateBook(@PathVariable("id") long id, @Valid Book book, BindingResult result, Model model) {
-//        if (result.hasErrors()) {
-//            book.setId(id);
-//            return "update-user";
-//        }
-//
-//        getRepo().save(book);
-//        model.addAttribute("books", getRepo().findAll());
-//        return "index";
-//    }
-
-//    @GetMapping("/delete/{id}")
-//    public String deleteBook(@PathVariable("id") long id, Model model) {
-//
-//        Book book = getRepo()
-//                .findById(id)
-//                .orElseThrow(
-//                    () -> new IllegalArgumentException("Invalid book Id:" + id)
-//                );
-//        getRepo().delete(book);
-//        model.addAttribute("books", getRepo().findAll());
-//        return "index";
-//    }
-
-//    @GetMapping(value="/json")
-//    public String json (Model model) {
-//        return "json";
-//    }
-//    /**
-//     * a sample controller return the content of the DB in JSON format
-//     * @return
-//     */
-//    @GetMapping(value="/getjson")
-//    public @ResponseBody List<Book> getAll() {
-//
-//        return getRepo().findAll();
-//    }
+    @PostMapping("/purchaseitem")
+    public String purchaseItem(@RequestParam("id") long id, Model model) {
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+//        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
+        return "purchase-item";
+    }
 }
 
