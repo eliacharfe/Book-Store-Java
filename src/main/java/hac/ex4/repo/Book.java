@@ -12,7 +12,6 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Book {
-    private final String IMAGE_URL = "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg";
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -89,7 +88,12 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book: ";
+        return "Book{" + "id=" + id +
+                     ", name=" + name +
+                     ", quantity=" + quantity +
+                     ", price=" + price +
+                     ", discount=" + discount +
+                     '}';
     }
 }
 
