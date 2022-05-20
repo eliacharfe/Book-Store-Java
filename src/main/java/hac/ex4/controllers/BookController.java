@@ -1,5 +1,7 @@
 package hac.ex4.controllers;
 
+import hac.ex4.repo.BasketBookItem;
+import hac.ex4.repo.BasketBookItemRepository;
 import hac.ex4.repo.Book;
 import hac.ex4.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +27,17 @@ public class BookController {
         return repository;
     }
 
+    @Autowired
+    private BasketBookItemRepository basketBookItemRepository ;
+
+    private BasketBookItemRepository  getRepoBasketBookItem() {
+        return basketBookItemRepository;
+    }
+
     @GetMapping("/navbar")
     public String getNavbar(Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
-      return "navbar";
+      return "includes/navbar";
   }
 
     @GetMapping("/")
@@ -47,11 +56,10 @@ public class BookController {
     }
 
     @GetMapping("/addnewbookform")
-    public String addNewBook(@Valid Book book, BindingResult result, Model model) {
-        model.addAttribute("book", new Book("noname",
+    public String addNewBook(Model model) {
+        model.addAttribute("book", new Book("No name",
                 "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg",
-                1,  35l, 6l));
-        //model.addAttribute("books", getRepo().findAll());
+                1,  79l, 7l));
         return "add-book";
     }
 
@@ -67,7 +75,7 @@ public class BookController {
 
     @PostMapping("/edit")
     public String editUser(@RequestParam("id") long id, Model model) {
-        Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         model.addAttribute("book", book);
         return "update-book";
     }
@@ -83,7 +91,7 @@ public class BookController {
         return "admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteBook(@PathVariable("id") long id, Model model) {
        Book book = getRepo()
                 .findById(id)
@@ -95,26 +103,51 @@ public class BookController {
         return "admin";
     }
 
-
     @PostMapping("/add-to-basket")
-    public String increaseBasket(@RequestParam("id") long id, Model model) {
+    public String addToBasket(@RequestParam("id") long id, Model model) {
         countBasketItems++;
+
+        Book book = getRepo()
+                .findById(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Invalid book Id:" + id)
+                );
+
+        model.addAttribute("basketBooksItems", new BasketBookItem(book.getName(),
+                book.getImageSrc(), book.getPrice(), book.getDiscount()));
+
+        getRepoBasketBookItem().save(new BasketBookItem(book.getName(),
+                book.getImageSrc(), book.getPrice(), book.getDiscount()));
+
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
         return "welcome";
     }
 
+    @PostMapping("/delete-from-basket/{id}")
+    public String deleteFromBasket(@PathVariable("id") long id, Model model) {
+        countBasketItems--;
+        BasketBookItem book = getRepoBasketBookItem()
+                .findById(id)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("Invalid book Id:" + id)
+                );
+        getRepoBasketBookItem().delete(book);
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+        model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
+        return "basket-shopping-list";
+    }
+
     @PostMapping("/basketshopping")
     public String basketShoppingList(Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
-        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
+        model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
         return "basket-shopping-list";
     }
 
     @PostMapping("/purchaseitem")
     public String purchaseItem(@RequestParam("id") long id, Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
-//        model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
         return "purchase-item";
     }
 }

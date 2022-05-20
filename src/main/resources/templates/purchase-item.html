@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="header :: header"></head>
+<head th:replace="includes/header :: header"></head>
 
 <body>
-
-<div th:replace="navbar :: navbar"></div>
+<div th:replace="includes/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row">
         <div class="col-xl-3 col-md-3 mt-4"></div>
         <div class="col-xl-6 col-md-6">
             <h1 class="my-5">Thank you for your purchase!</h1>
+            <form action="#" th:action="@{/basketshopping}" method="post" id="form-id">
+                <input type="hidden" name="id">
+                <span class="mr-2 mt-3">
+                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </span>
+                <input class="btn btn-grey" type="submit" value="Continue Shopping "/>
+            </form>
             <div class="text-center">
                 <a class="btn btn-grey my-3" href="/">Back To Home Page</a>
             </div>
@@ -22,5 +28,5 @@
 </div>
 </body>
 
-<div th:replace="footer :: footer"></div>
+<div th:replace="includes/footer :: footer"></div>
 </html>

@@ -22,30 +22,30 @@
                 </ul>
                 <form class="d-flex">
 
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2 myinput mybtn mr-2 ml-5" type="search" placeholder="Search"
+                           aria-label="Search">
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form>
                 <a class="nav-link disabled right-text-align mr-auto" href="#" tabindex="-1" aria-disabled="true"></a>
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <h5 class="nav-link right-text-align mr-auto" tabindex="-1"
+                        <h5 class="nav-link mr-auto pb-2" tabindex="-1"
                             th:text="${countBasketItems}"></h5>
                     </li>
                     <li class="nav-item">
-                        <form action="#" th:action="@{/basketshopping}" method="post">
+                        <form action="#" th:action="@{/basketshopping}" method="post" id="form-id">
                             <input type="hidden" name="id">
-                            <span class="mr-2">
-                         <i class="fa fa-shopping-cart" aria-hidden="true"> </i>
-                    </span>
-                            <input class="btn btn-grey" type="submit" value="Show Basket"/>
+                            <span class="mr-2 mt-3">
+                               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </span>
+                            <input class="btn btn-grey" type="submit" value="Show Basket "/>
                         </form>
                     </li>
                 </ul>
 
             </div>
         </div>
-
 
     </nav>
 

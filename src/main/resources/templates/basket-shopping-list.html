@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="header :: header"></head>
+<head th:replace="includes/header :: header"></head>
 
 <body>
-
-<div th:replace="navbar :: navbar"></div>
+<div th:replace="includes/navbar :: navbar"></div>
 
 <div class="container">
     <div class="row">
@@ -13,7 +12,7 @@
 
         <div class="col-xl-6 col-md-4 col-xs-2 ">
 
-        <div th:switch="${topFiveOnSale}" >
+        <div th:switch="${basketBooksItems}" >
             <h2 th:case="null">No books yet!</h2>
             <div th:case="*">
                 <h2 class="my-2">My basket shopping list:</h2>
@@ -22,25 +21,32 @@
                     <tr>
                         <th>Name</th>
                         <th>Image</th>
-                        <th>Quantity</th>
                         <th>Price</th>
                         <th>Discount</th>
                         <th>Payment</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="book : ${topFiveOnSale}">
+                    <tr th:each="book : ${basketBooksItems}">
                         <td th:text="${book.name}"></td>
                         <td >
                             <img th:src="${book.imageSrc}" class="img-book-admin"/>
                         </td>
-                        <td th:text="${book.quantity}"></td>
-                        <td th:text="${book.price}"></td>
+
+                        <td th:inline="text" >Price: <b class="text-success">[[${book.price - book.discount*book.price/100}]]</b>
+                            <del class="text-danger ml-2 " th:text="${book.price}"></del></td>
+
                         <td th:text="${book.discount}"></td>
                         <td>
                             <form action="#" th:action="@{/purchaseitem}" th:object="${book}" method="post">
                                 <input type="hidden" name="id" th:value="${book.id}">
                                 <input class="btn btn-warning mybtn" type="submit" value="Payment"/>
+                            </form>
+
+                            <form action="#" th:action="@{/delete-from-basket/{id}(id=${book.id})}" th:object="${book}" method="post"
+                            class="my-3">
+                                <input type="hidden" name="id" th:value="${book.id}">
+                                <input class="btn btn-danger" type="submit" value="Delete"/>
                             </form>
                         </td>
 
@@ -56,5 +62,5 @@
 </div>
 </body>
 
-<div th:replace="footer :: footer"></div>
+<div th:replace="includes/footer :: footer"></div>
 </html>

@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-public class Book {
+public class BasketBookItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +21,6 @@ public class Book {
    // @NotEmpty(value = IMAGE_URL)
     private String imageSrc;
 
-    @Min(value = 0, message = "Quantity should be greater than or equal to 0")
-    private int quantity;
-
     @Min(value = 1, message = "Price should be greater than 0 ")
     private long price;
 
@@ -31,12 +28,11 @@ public class Book {
     @Max(value = 100, message = "Discount percentage should be less than or equal to 100 ")
     private long discount;
 
-    public Book() {}
+    public BasketBookItem() {}
 
-    public Book(String name, String imageSrc, int quantity, long price, long discount) {
+    public BasketBookItem(String name, String imageSrc, long price, long discount) {
         this.name = name;
         this.imageSrc = imageSrc;
-        this.quantity = quantity;
         this.price = price;
         this.discount = discount;
     }
@@ -62,14 +58,6 @@ public class Book {
         return imageSrc;
     }
 
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
-
     public void setPrice(long price) {
         this.price = price;
     }
@@ -89,7 +77,6 @@ public class Book {
     public String toString() {
         return "Book{" + "id=" + id +
                      ", name=" + name +
-                     ", quantity=" + quantity +
                      ", price=" + price +
                      ", discount=" + discount +
                      '}';

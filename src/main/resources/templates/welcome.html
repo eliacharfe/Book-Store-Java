@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="header :: header"></head>
+<head th:replace="includes/header :: header"></head>
 
 <body>
-
-<div th:replace="navbar :: navbar"></div>
+<div th:replace="includes/navbar :: navbar"></div>
 
 <div class="container">
-<!--        <span th:text="'Hello, ' + ${message}"></span>-->
 
         <div th:switch="${topFiveOnSale}" >
             <h2 th:case="null">No books yet!</h2>
@@ -20,10 +18,10 @@
                      class="card  border border-5 rounded-3 myborder-5 mb-2 grid-child-element card-size" >
                     <img th:src="${book.imageSrc}"class="card-img-top img-book" alt="...">
                     <div class="card-body mycard">
-                        <p class="card-text" th:text="'Name: ' + ${book.name}"></p>
-                        <p class="card-text" th:text="'Quantity: ' + ${book.quantity}"></p>
-                        <p class="card-text" th:text="'Price: ' + ${book.price}"></p>
-                        <p class="card-text text-success" th:text="'Discount: ' + ${book.discount}"></p>
+                        <p th:inline="text" >Name: <b>[[${book.name}]]</b> </p>
+                        <p class="card-text" th:text="'ID: ' + ${book.id}"></p>
+                        <p th:inline="text" >Price: <b class="text-success">[[${book.price - book.discount*book.price/100}]]</b>
+                            <del class="text-danger ml-2 " th:text="${book.price}"></del></p>
                         <form action="#" th:action="@{/add-to-basket}" th:object="${book}" method="post">
                             <input type="hidden" name="id" th:value="${book.id}">
                             <input class="btn btn-info" type="submit" value="Add To Basket"/>
@@ -35,10 +33,12 @@
 
             <!--            <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
         </div>
-
 </div>
 </body>
 
-<div th:replace="footer :: footer"></div>
+<img src="https://www.nicepng.com/png/detail/812-8129441_college-books-png-long-line-of-books.png"
+     style="width: 100%">
+
+<div th:replace="includes/footer :: footer"></div>
 
 </html>
