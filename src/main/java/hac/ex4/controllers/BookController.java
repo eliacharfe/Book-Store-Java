@@ -138,6 +138,15 @@ public class BookController {
         return "basket-shopping-list";
     }
 
+    @PostMapping("/delete-all-basket")
+    public String deleteAllBasket(Model model) {
+        countBasketItems = 0;
+        getRepoBasketBookItem().deleteAll();
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+        model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
+        return "basket-shopping-list";
+    }
+
     @PostMapping("/basketshopping")
     public String basketShoppingList(Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
