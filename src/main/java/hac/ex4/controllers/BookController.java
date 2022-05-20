@@ -139,7 +139,8 @@ public class BookController {
         basketBookItem.setQuantityOfSameItem(basketBookItem.getQuantityOfSameItem() - 1);
         if (basketBookItem.getQuantityOfSameItem() <= 0)
             getRepoBasketBookItem().delete(basketBookItem);
-        getRepoBasketBookItem().save(basketBookItem);
+        else
+           getRepoBasketBookItem().save(basketBookItem);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
         return "basket-shopping-list";
