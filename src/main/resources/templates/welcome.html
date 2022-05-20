@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="includes/header :: header"></head>
 <body>
 <div th:replace="includes/navbar :: navbar"></div>
@@ -11,19 +11,19 @@
         <div th:switch="${topFiveOnSale}" >
             <h2 th:case="null">No books yet!</h2>
             <div th:case="*">
-                <h2 class="my-2">Books on Sale:</h2>
+<!--                <h2 class="my-2">Books on Sale:</h2>-->
 
                 <div class="grid-container-element ">
                 <div th:each="book : ${topFiveOnSale}"
                      class="card  border border-5 rounded-3 myborder-5 mb-2 grid-child-element card-size" >
                     <img th:src="${book.imageSrc}"class="card-img-top img-book" alt="...">
-                    <div class="card-body mycard">
+                    <div class="card-body mycard d-flex flex-column">
                         <p th:inline="text" >Name: <b>[[${book.name}]]</b> </p>
-                        <p class="card-text" th:text="'ID: ' + ${book.id}"></p>
+<!--                        <p class="card-text" th:text="'ID: ' + ${book.id}"></p>-->
 
                         <p th:inline="text" >Price: <b class="text-success">[[${book.price - book.discount*book.price/100}]]</b>
                             <del class="text-danger ml-2 " th:text="${book.price}"></del></p>
-                        <form action="#" th:action="@{/add-to-basket}" th:object="${book}" method="post">
+                        <form action="#" th:action="@{/add-to-basket}" th:object="${book}" method="post" class="mt-auto">
                             <input type="hidden" name="id" th:value="${book.id}">
                             <input class="btn btn-info" type="submit" value="Add To Basket"/>
                         </form>

@@ -36,6 +36,11 @@ public class BookController {
         return basketBookItemRepository;
     }
 
+    @GetMapping("/navbar-basket-purchase")
+    public String getNavbarBasketPurchase(Model model) {
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+        return "includes/navbar-basket-purchase";
+    }
     @GetMapping("/navbar")
     public String getNavbar(Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
@@ -55,10 +60,10 @@ public class BookController {
         return "welcome";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/admin")
     public String showSignUpForm(Model model) {
         model.addAttribute("books", getRepo().findAll());
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("/addnewbookform")
@@ -66,35 +71,35 @@ public class BookController {
         model.addAttribute("book", new Book("No name",
                 "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg",
                 10, 79.99, 7.0));
-        return "add-book";
+        return "admin/add-book";
     }
 
     @PostMapping("/addbook")
     public String addBook(@Valid Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "add-book";
+            return "admin/add-book";
         }
         getRepo().save(book);
         model.addAttribute("books", getRepo().findAll());
-        return "admin";
+        return "admin/admin";
     }
 
     @PostMapping("/edit")
     public String editUser(@RequestParam("id") long id, Model model) {
         Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         model.addAttribute("book", book);
-        return "update-book";
+        return "admin/update-book";
     }
 
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") long id, @Valid Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
             book.setId(id);
-            return "update-book";
+            return "admin/update-book";
         }
         getRepo().save(book);
         model.addAttribute("books", getRepo().findAll());
-        return "admin";
+        return "admin/admin";
     }
 
     @PostMapping("/delete/{id}")
@@ -102,34 +107,24 @@ public class BookController {
         Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         getRepo().delete(book);
         model.addAttribute("books", getRepo().findAll());
-        return "admin";
+        return "admin/admin";
     }
 
     @PostMapping("/add-to-basket")
     public String addToBasket(@RequestParam("id") long id, Model model) {
-        countBasketItems++;
-        Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-
-        BasketBookItem basketBookItem;
-        try {
-            basketBookItem = getRepoBasketBookItem().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-            if (basketBookItem.getQuantityOfSameItem() < book.getQuantity()) {
-                basketBookItem.setQuantityOfSameItem(basketBookItem.getQuantityOfSameItem() + 1);
-                message = "";
-            } else {
-                message = "This book is not available anymore";
-            }
-        } catch (IllegalArgumentException e) {
-            basketBookItem = new BasketBookItem(id, book.getName(),
-                    book.getImageSrc(), book.getPrice(), book.getDiscount(), 1);
-        }
-
-        getRepoBasketBookItem().save(basketBookItem);
-
+        addNewItemToBasket(id);
         model.addAttribute("message", message);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
         return "welcome";
+    }
+
+    @PostMapping("/plus-to-basket")
+    public String plusToBasket(@RequestParam("id") long id, Model model) {
+        addNewItemToBasket(id);
+        model.addAttribute("countBasketItems", countBasketItems.toString());
+        model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
+        return "basket-shopping-list";
     }
 
     @PostMapping("/decrease-item-from-basket/{id}")
@@ -156,7 +151,7 @@ public class BookController {
         return "basket-shopping-list";
     }
 
-    @PostMapping("/delete-all-basket")
+    @PostMapping("/empty-basket")
     public String deleteAllBasket(Model model) {
         countBasketItems = 0;
         getRepoBasketBookItem().deleteAll();
@@ -198,6 +193,28 @@ public class BookController {
                 * basketBookItem.getDiscount() / 100);
 
         return "purchase-item";
+    }
+
+    void addNewItemToBasket(long id){
+        Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+
+        BasketBookItem basketBookItem;
+        try {
+            basketBookItem = getRepoBasketBookItem().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+            if (basketBookItem.getQuantityOfSameItem() < book.getQuantity()) {
+                countBasketItems++;
+                basketBookItem.setQuantityOfSameItem(basketBookItem.getQuantityOfSameItem() + 1);
+                message = "";
+            } else {
+                message = "This book is not available anymore";
+            }
+        } catch (IllegalArgumentException e) {
+            countBasketItems++;
+            basketBookItem = new BasketBookItem(id, book.getName(),
+                    book.getImageSrc(), book.getPrice(), book.getDiscount(), 1);
+        }
+
+        getRepoBasketBookItem().save(basketBookItem);
     }
 }
 

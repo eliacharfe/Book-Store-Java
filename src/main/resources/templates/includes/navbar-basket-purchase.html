@@ -1,4 +1,4 @@
-<div th:fragment="navbar">
+<div th:fragment="navbar-basket-purchase">
 
     <nav class="navbar navbar-expand-lg backLightBlue">
         <div class="container-fluid">
@@ -15,11 +15,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">
                             <i class="fa fa-home" aria-hidden="true"></i> Home</a>
-                    </li>
-                    <li class="nav-item" >
-<!--                        <div sec:authorize="isAuthenticated()">-->
-                        <a class="nav-link" href="admin" th:href="@{/admin}">Administrator</a>
-<!--                        </div>-->
                     </li>
                 </ul>
                 <form class="d-flex">
