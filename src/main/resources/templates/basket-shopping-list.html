@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="includes/header :: header"></head>
-
 <body>
 <div th:replace="includes/navbar :: navbar"></div>
 
@@ -18,8 +17,6 @@
                     <form action="#" th:action="@{/delete-all-basket/}" method="post" class="my-3">
                         <input class="btn btn-danger" type="submit" value="Delete All Basket"/>
                     </form>
-<!--                </div>-->
-
                 </div>
             </div>
         </div>
@@ -37,26 +34,31 @@
                             <th>Image</th>
                             <th>Price</th>
                             <th>Discount</th>
+                            <th>Quantity</th>
                             <th>Payment</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="book : ${basketBooksItems}">
                             <td th:text="${book.name}"></td>
-                            <td>
-                                <img th:src="${book.imageSrc}" class="img-book-admin"/>
-                            </td>
-
+                            <td><img th:src="${book.imageSrc}" class="img-book-admin"/></td>
                             <td th:inline="text">Price: <b class="text-success">[[${book.price -
                                 book.discount*book.price/100}]]</b>
                                 <del class="text-danger ml-2 " th:text="${book.price}"></del>
                             </td>
-
                             <td th:text="${book.discount}"></td>
+                            <td th:text="${book.quantityOfSameItem}"></td>
                             <td>
                                 <form action="#" th:action="@{/purchaseitem}" th:object="${book}" method="post">
                                     <input type="hidden" name="id" th:value="${book.id}">
                                     <input class="btn btn-warning mybtn" type="submit" value="Payment"/>
+                                </form>
+
+                                <form action="#" th:action="@{/decrease-item-from-basket/{id}(id=${book.id})}"
+                                      th:object="${book}" method="post"
+                                      class="my-3">
+                                    <input type="hidden" name="id" th:value="${book.id}">
+                                    <input class="btn btn-grey" type="submit" value="-"/>
                                 </form>
 
                                 <form action="#" th:action="@{/delete-from-basket/{id}(id=${book.id})}"

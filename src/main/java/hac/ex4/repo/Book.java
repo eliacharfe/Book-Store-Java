@@ -25,15 +25,15 @@ public class Book {
     private int quantity;
 
     @Min(value = 1, message = "Price should be greater than 0 ")
-    private long price;
+    private double price;
 
     @Min(value = 1, message = "Discount percentage should be greater than or equal to 0 ")
     @Max(value = 100, message = "Discount percentage should be less than or equal to 100 ")
-    private long discount;
+    private double discount;
 
     public Book() {}
 
-    public Book(String name, String imageSrc, int quantity, long price, long discount) {
+    public Book(String name, String imageSrc, int quantity, double price, double discount) {
         this.name = name;
         this.imageSrc = imageSrc;
         this.quantity = quantity;
@@ -64,23 +64,24 @@ public class Book {
 
 
     public void setQuantity(int quantity) {
+        System.out.println("in set Q: " + quantity  + ", " + this.id);
         this.quantity = quantity;
     }
     public int getQuantity() {
         return quantity;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(double price) {
         this.price = price;
     }
-    public long getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setDiscount(long discount) {
+    public void setDiscount(double discount) {
         this.discount = discount;
     }
-    public long getDiscount() {
+    public double getDiscount() {
         return discount;
     }
 
