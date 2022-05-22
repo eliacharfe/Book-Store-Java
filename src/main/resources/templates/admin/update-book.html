@@ -32,12 +32,12 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label for="price" class="col-form-label">Price</label>
-                        <input type="text" th:field="*{price}" class="form-control" id="price" placeholder="Price">
+                        <input type="number" step="0.01" th:field="*{price}" class="form-control" id="price" placeholder="Price">
                         <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="discount" class="col-form-label">Discount</label>
-                        <input type="text" th:field="*{discount}" class="form-control" id="discount"
+                        <input type="number" step="0.01" th:field="*{discount}" class="form-control" id="discount"
                                placeholder="Discount">
                         <span th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
                               class="text-danger"></span>

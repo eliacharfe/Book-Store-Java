@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BasketBookItemRepository extends JpaRepository<BasketBookItem, Long> {
-    long countByQuantityOfSameItem(int quantity);
+//    long countByQuantityOfSameItem(int quantity);
 //    List<BasketBookItem> findAllById();
 //    List<BasketBookItem>  findByBasketBookItemName(String name);
     //List<BasketBookItem> findByBookName(String name);

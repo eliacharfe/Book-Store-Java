@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class BookController {
 
-    @Value("${welcome.message}")
+    @Value("${store.message}")
     private String message = "";
 
     private Integer countBasketItems = 0;
@@ -57,7 +57,7 @@ public class BookController {
         model.addAttribute("message", message);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
-        return "welcome";
+        return "user/store";
     }
 
     @GetMapping("/admin")
@@ -85,7 +85,7 @@ public class BookController {
     }
 
     @PostMapping("/edit")
-    public String editUser(@RequestParam("id") long id, Model model) {
+    public String editBook(@RequestParam("id") long id, Model model) {
         Book book = getRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         model.addAttribute("book", book);
         return "admin/update-book";
@@ -116,7 +116,7 @@ public class BookController {
         model.addAttribute("message", message);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("topFiveOnSale", getRepo().findFirst5ByOrderByDiscountDesc());
-        return "welcome";
+        return "user/store";
     }
 
     @PostMapping("/plus-to-basket")
@@ -124,7 +124,7 @@ public class BookController {
         addNewItemToBasket(id);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
-        return "basket-shopping-list";
+        return "user/basket-shopping-list";
     }
 
     @PostMapping("/decrease-item-from-basket/{id}")
@@ -138,7 +138,7 @@ public class BookController {
            getRepoBasketBookItem().save(basketBookItem);
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
-        return "basket-shopping-list";
+        return "user/basket-shopping-list";
     }
 
     @PostMapping("/delete-from-basket/{id}")
@@ -148,7 +148,7 @@ public class BookController {
         countBasketItems -= basketBookItem.getQuantityOfSameItem();
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
-        return "basket-shopping-list";
+        return "user/basket-shopping-list";
     }
 
     @PostMapping("/empty-basket")
@@ -157,14 +157,14 @@ public class BookController {
         getRepoBasketBookItem().deleteAll();
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
-        return "basket-shopping-list";
+        return "user/basket-shopping-list";
     }
 
     @PostMapping("/basketshopping")
     public String basketShoppingList(Model model) {
         model.addAttribute("countBasketItems", countBasketItems.toString());
         model.addAttribute("basketBooksItems", getRepoBasketBookItem().findAll());
-        return "basket-shopping-list";
+        return "user/basket-shopping-list";
     }
 
     @PostMapping("/purchaseitem")
@@ -192,7 +192,7 @@ public class BookController {
         model.addAttribute("totalAmountPay", basketBookItem.getPrice() - basketBookItem.getPrice()
                 * basketBookItem.getDiscount() / 100);
 
-        return "purchase-item";
+        return "user/purchase-item";
     }
 
     void addNewItemToBasket(long id){

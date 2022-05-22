@@ -64,7 +64,6 @@ public class Book {
 
 
     public void setQuantity(int quantity) {
-        System.out.println("in set Q: " + quantity  + ", " + this.id);
         this.quantity = quantity;
     }
     public int getQuantity() {

@@ -18,15 +18,17 @@
                      class="card  border border-5 rounded-3 myborder-5 mb-2 grid-child-element card-size" >
                     <img th:src="${book.imageSrc}"class="card-img-top img-book" alt="...">
                     <div class="card-body mycard d-flex flex-column">
-                        <p th:inline="text" >Name: <b>[[${book.name}]]</b> </p>
+                        <div class="mt-auto">
+                        <p th:inline="text"><b>[[${book.name}]]</b> </p>
 <!--                        <p class="card-text" th:text="'ID: ' + ${book.id}"></p>-->
-
-                        <p th:inline="text" >Price: <b class="text-success">[[${book.price - book.discount*book.price/100}]]</b>
-                            <del class="text-danger ml-2 " th:text="${book.price}"></del></p>
+                        <p th:inline="text" >Price: <b class="text-success ">[[${book.price - book.discount*book.price/100}]]</b>
+                            <del class="text-danger ml-2 " th:text="${book.price}"></del>
+                        </p>
                         <form action="#" th:action="@{/add-to-basket}" th:object="${book}" method="post" class="mt-auto">
                             <input type="hidden" name="id" th:value="${book.id}">
                             <input class="btn btn-info" type="submit" value="Add To Basket"/>
                         </form>
+                        </div>
                     </div>
                 </div>
                 </div>
