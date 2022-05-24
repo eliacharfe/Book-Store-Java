@@ -2,42 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="includes/header :: header"></head>
 
-<body>
+<body class="body-back">
 <div th:replace="includes/navbar-admin :: navbar-admin"></div>
 
-<div class="container my-4">
-    <h2 class="mb-2">Update Book</h2>
+<div class="container-fluid">
+
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-xl-3 "></div>
+
+        <div class="col-xl-6 mt-4 mr-4">
+            <h2 class="mb-2">Update Book</h2>
             <form action="#" th:action="@{/update/{id}(id=${book.id})}" th:object="${book}" method="post">
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="name" class="col-form-label">Name</label>
-                        <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Name">
+                        <input type="text" th:field="*{name}" class="form-control myinput" id="name" placeholder="Name">
                         <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="imageSrc" class="col-form-label">Image</label>
-                        <input type="text" th:field="*{imageSrc}" class="form-control" id="imageSrc"
+                        <input type="text" th:field="*{imageSrc}" class="form-control myinput" id="imageSrc"
                                placeholder="Image Source">
                         <span th:if="${#fields.hasErrors('imageSrc')}" th:errors="*{imageSrc}"
                               class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="quantity" class="col-form-label">Quantity</label>
-                        <input type="text" th:field="*{quantity}" class="form-control" id="quantity"
+                        <input type="text" th:field="*{quantity}" class="form-control myinput" id="quantity"
                                placeholder="Quantity">
                         <span th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
                               class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="price" class="col-form-label">Price</label>
-                        <input type="number" step="0.01" th:field="*{price}" class="form-control" id="price" placeholder="Price">
+                        <input type="number" step="0.01" th:field="*{price}" class="form-control myinput" id="price" placeholder="Price">
                         <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="discount" class="col-form-label">Discount</label>
-                        <input type="number" step="0.01" th:field="*{discount}" class="form-control" id="discount"
+                        <input type="number" step="0.01" th:field="*{discount}" class="form-control myinput" id="discount"
                                placeholder="Discount">
                         <span th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
                               class="text-danger"></span>
@@ -49,6 +52,8 @@
                 </label>
             </form>
         </div>
+
+        <div class="col-xl-3 "></div>
     </div>
 </div>
 </body>

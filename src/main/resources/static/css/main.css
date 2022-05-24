@@ -171,9 +171,15 @@ h1,h2,h3,h4{
     color:#282c34;
 }
 
+.body-back {
+    background-color: #e3f2fd;
+}
+
+.body-back-2 {
+    background-color: lightsteelblue;
+}
 
 .myinput{
-    margin: 5px;
 }
 .myinput:hover{
     background-color: #9ec9f3;
