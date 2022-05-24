@@ -7,9 +7,10 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Entity
-public class Book {
+public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -61,7 +62,6 @@ public class Book {
     public String getImageSrc() {
         return imageSrc;
     }
-
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;

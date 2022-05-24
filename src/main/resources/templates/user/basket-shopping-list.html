@@ -17,7 +17,7 @@
                 <input class="btn btn-danger" type="submit" value="Empty Basket"/>
             </form>
 
-            <div th:switch="${basketBooksItems}">
+            <div th:switch="${basket}">
                 <h2 th:case="null">No books yet!</h2>
                 <div th:case="*">
                     <h2 class="my-2">My basket shopping list:</h2>
@@ -33,15 +33,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="book : ${basketBooksItems}">
+                        <tr th:each="book : ${basket}">
                             <td th:text="${book.name}"></td>
                             <td><img th:src="${book.imageSrc}" class="img-book-admin"/></td>
-                            <td th:inline="text">Price: <b class="text-success">[[${book.price -
-                                book.discount*book.price/100}]]</b>
+                            <td th:inline="text">Price: <b class="text-success">[[${book.price - book.discount*book.price/100}]]</b>
                                 <del class="text-danger ml-2 " th:text="${book.price}"></del>
                             </td>
                             <td th:text="${book.discount}"></td>
-                            <td th:text="${book.quantityOfSameItem}"></td>
+                            <td th:text="${book.quantityOfSameItemInBasket}"></td>
                             <td>
                                 <form action="#" th:action="@{/purchaseitem}" th:object="${book}" method="post">
                                     <input type="hidden" name="id" th:value="${book.id}">
