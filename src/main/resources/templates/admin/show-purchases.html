@@ -8,6 +8,11 @@
 <div class="container">
     <div class="row">
         <div class="col-xl-7 col-md-12 col-xs-12 ">
+            <label>
+                <a class="btn btn-grey mt-3" href="admin" th:href="@{/admin}">Back <i class="fas fa-sign-out-alt"></i></a>
+            </label>
+
+            <h3 class="mt-3 mb-4">List of Purchases ordered by dates:</h3>
 
             <div th:switch="${purchases}">
                 <h2 th:case="null">No books yet!</h2>

@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -28,6 +32,9 @@ public class BookController {
 
     @Resource(name = "basketBean")
     private BasketList basketList;
+
+    @Autowired
+    private PurchaseController purchaseController;
 
     @GetMapping("/navbar-basket-purchase")
     public String getNavbarBasketPurchase(Model model) {
@@ -150,18 +157,19 @@ public class BookController {
     public String purchaseItem(@RequestParam("id") long id, Model model) {
         Book book = getBookRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         BasketBook basketBook = basketList.findById(id);
-        double totalAmount = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
+        Double totalAmount = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
         basketList.delete(id);
         book.setQuantity(book.getQuantity() - 1);
 
-        if (book.getQuantity() == 0) {
-            book.setQuantity(0);
+        if (book.getQuantity() <= 0) {
             getBookRepo().delete(book);
         }
         getBookRepo().save(book);
 
         model.addAttribute("countBasketItems", basketList.count().toString());
-        model.addAttribute("totalAmountPay", totalAmount);
+        model.addAttribute("totalAmountPay", totalAmount.toString());
+
+        purchaseController.savePurchase(basketList.count().toString(),totalAmount.toString(), model);
         return "user/purchase-item";
     }
 

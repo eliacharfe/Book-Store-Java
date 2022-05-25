@@ -26,10 +26,15 @@ public class Purchase implements Serializable {
 
     public Purchase() {}
 
-    public Purchase(double amount, LocalDateTime dateTime) {
+    public Purchase(double amount) {
         this.amount = amount;
-        this.dateTime = dateTime;
+//        this.dateTime = dateTime;
     }
+
+//    public Purchase(double amount, LocalDateTime dateTime) {
+//        this.amount = amount;
+//        this.dateTime = dateTime;
+//    }
 
     public void setAmount(double amount) {
         this.amount = amount;
