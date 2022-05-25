@@ -25,6 +25,13 @@ public class PurchaseController {
         return purchaseRepository;
     }
 
+
+    @PostMapping("/showpurchases")
+    public String deleteAllBasket(Model model) {
+        model.addAttribute("purchases", getPurchaseRepo().findAll());
+        return "admin/show-purchases";
+    }
+
 //    @GetMapping("/navbar-basket-purchase")
 //    public String getNavbarBasketPurchase(Model model) {
 //        BasketList basketList = basketList ;

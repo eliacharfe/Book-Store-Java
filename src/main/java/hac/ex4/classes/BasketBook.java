@@ -6,10 +6,10 @@ public class BasketBook implements Serializable {
 
     public long id;
     public String name;
-    public  String imageSrc;
-    public  int quantityOfSameItemInBasket;
+    public String imageSrc;
+    public int quantityOfSameItemInBasket;
     public double price;
-    public  double discount;
+    public double discount;
 
     public BasketBook(long id, String name, String imageSrc, int quantityOfSameItemInBasket,
                       double price, double discount) {

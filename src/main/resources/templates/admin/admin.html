@@ -13,7 +13,7 @@
                 Add New Book  <i class="fa fa-plus" aria-hidden="true"></i></a>
             <!--            </div>-->
 
-            <div th:switch="${books}" class="col-md-6">
+            <div th:switch="${books}" >
                 <h2 th:case="null">No books yet!</h2>
                 <div th:case="*">
                     <table class="table table-striped table-responsive-md">
