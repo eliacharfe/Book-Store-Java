@@ -1,26 +1,20 @@
 package hac.ex4.controllers;
 
-import hac.ex4.beans.BasketList;
-import hac.ex4.classes.BasketBook;
-import hac.ex4.repo.Book;
 import hac.ex4.repo.Purchase;
 import hac.ex4.repo.PurchaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import java.util.Date;
+import javax.validation.ConstraintViolationException;
 
 @Controller
 public class PurchaseController {
 
-    @Value("${store.message}")
-    private String message = "";
+    @Value("${store.errorMessage}")
+    private String errorMessage = "";
 
     @Autowired
     private PurchaseRepository purchaseRepository;
@@ -28,24 +22,30 @@ public class PurchaseController {
         return purchaseRepository;
     }
 
-
     @PostMapping("/showpurchases")
     public String deleteAllBasket(Model model) {
-        model.addAttribute("purchases", getPurchaseRepo().findAll());
+        double totalSales = 0;
+        for (Purchase purchase : getPurchaseRepo().findAll()){
+            totalSales += purchase.getAmount();
+        }
+        model.addAttribute("totalSales", totalSales); // getPurchaseRepo().sumAllByAmount()
+        model.addAttribute("purchases", getPurchaseRepo().findAllByOrderByDateTime());
         return "admin/show-purchases";
     }
 
     @RequestMapping("/save-purchase")
     public String savePurchase(@RequestParam("countBasketItems") String countBasketItems,
                                @RequestParam("totalAmountPay") String totalAmountPay,
+                               @RequestParam("errorMessage") String errorMessage,
                                Model model) {
         double amount = Double.parseDouble(totalAmountPay);
-        getPurchaseRepo().save(new Purchase(amount));
+        if (amount > 0)
+            getPurchaseRepo().save(new Purchase(amount));
 
         model.addAttribute("countBasketItems", countBasketItems);
         model.addAttribute("totalAmountPay", amount);
+        model.addAttribute("errorMessage", errorMessage);
         return "user/purchase-item";
     }
-
 }
 

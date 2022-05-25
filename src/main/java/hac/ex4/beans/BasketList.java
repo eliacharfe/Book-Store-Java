@@ -25,17 +25,17 @@ public class BasketList implements Serializable {
     }
 
     public void add (Book book) {
-        boolean found = false;
         for (BasketBook basketBook : basketList) {
             if (basketBook.getIdBasket() == book.getId()) {
-                basketBook.setQuantityOfSameItemInBasket(basketBook.getQuantityOfSameItemInBasket() + 1);
-                found = true;
+//                if (basketBook.getQuantityOfSameItemInBasket() < book.getQuantity() && book.getQuantity() > 0) {
+                    basketBook.setQuantityOfSameItemInBasket(basketBook.getQuantityOfSameItemInBasket() + 1);
+//                }
+                return;
             }
         }
-        if (!found){
-            basketList.add(new BasketBook(book.getId(), book.getName(), book.getImageSrc(),
-                    1, book.getPrice(), book.getDiscount()));
-        }
+        basketList.add(new BasketBook(book.getId(), book.getName(), book.getImageSrc(),
+                1, book.getPrice(), book.getDiscount()));
+//        return "";
     }
 
     public void clear() {

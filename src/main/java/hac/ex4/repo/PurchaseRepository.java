@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
+    List<Purchase> findAllByOrderByDateTime();
+//    Double countAllByAmount();
 //    List<Book> findFirst5ByOrderByDiscountDesc();
     //List<Book> findByBookName(String name);
     /* add here the queries you may need - in addition to CRUD operations

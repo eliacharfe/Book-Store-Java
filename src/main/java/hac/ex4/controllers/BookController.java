@@ -8,21 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
-
 import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Controller
 public class BookController {
 
-    @Value("${store.message}")
-    private String message = "";
+    @Value("${store.errorMessage}")
+    private String errorMessage = "";
 
     @Autowired
     private BookRepository bookRepository;
@@ -49,7 +44,6 @@ public class BookController {
 
     @GetMapping("/")
     public String main(Model model) {
-        model.addAttribute("message", message);
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("topFiveOnSale", getBookRepo().findFirst5ByOrderByDiscountDesc());
         return "user/store";
@@ -108,7 +102,6 @@ public class BookController {
     @PostMapping("/add-to-basket")
     public String addToBasket(@RequestParam("id") long id, Model model) {
         addNewItemToBasket(id);
-        model.addAttribute("message", message);
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("topFiveOnSale", getBookRepo().findFirst5ByOrderByDiscountDesc());
         return "user/store";
@@ -155,24 +148,23 @@ public class BookController {
 
     @PostMapping("/purchaseitem")
     public String purchaseItem(@RequestParam("id") long id, Model model) {
+        errorMessage = "";
         Book book = getBookRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         BasketBook basketBook = basketList.findById(id);
         Double totalAmount = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
         basketList.delete(id);
         book.setQuantity(book.getQuantity() - 1);
 
-        if (book.getQuantity() <= 0) {
-            getBookRepo().delete(book);
+        if (book.getQuantity() < 0) {
+            book.setQuantity(0);
+            basketList.clearAllItemsOfSameKind(id);
+            errorMessage = String.format("Sorry... %s is out of stoke. You will not be charged!", book.getName());
+            totalAmount = 0.00;
         }
         getBookRepo().save(book);
-
-        model.addAttribute("countBasketItems", basketList.count().toString());
-        model.addAttribute("totalAmountPay", totalAmount.toString());
-
-        purchaseController.savePurchase(basketList.count().toString(),totalAmount.toString(), model);
+        purchaseController.savePurchase(basketList.count().toString(),totalAmount.toString(), errorMessage,  model);
         return "user/purchase-item";
     }
-
 
     void addNewItemToBasket(long id){
         Book book = getBookRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));

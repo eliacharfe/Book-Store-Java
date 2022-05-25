@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -28,13 +27,7 @@ public class Purchase implements Serializable {
 
     public Purchase(double amount) {
         this.amount = amount;
-//        this.dateTime = dateTime;
     }
-
-//    public Purchase(double amount, LocalDateTime dateTime) {
-//        this.amount = amount;
-//        this.dateTime = dateTime;
-//    }
 
     public void setAmount(double amount) {
         this.amount = amount;

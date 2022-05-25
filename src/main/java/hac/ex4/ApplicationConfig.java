@@ -16,7 +16,14 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.inMemoryAuthentication()
-                .withUser("adm").password(encoder.encode("p")).roles("ADMIN");
+                .withUser("a").password(encoder.encode("p")).roles("ADMIN")
+                .and()
+                .withUser("user1").password(encoder.encode("user")).roles("USER")
+                .and()
+                .withUser("user2").password(encoder.encode("user")).roles("USER")
+                .and()
+                .withUser("user3").password(encoder.encode("user")).roles("USER");
+
     }
 
     @Override

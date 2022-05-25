@@ -17,6 +17,8 @@
                 <input class="btn btn-danger" type="submit" value="Empty Basket"/>
             </form>
 
+<!--            <h5 th:if="${errorMessage != ''}" th:text="${errorMessage}" class="alert alert-danger mt-3"></h5>-->
+
             <div th:switch="${basket}">
                 <h2 th:case="null">No books yet!</h2>
                 <div th:case="*">
@@ -60,10 +62,8 @@
                                     </form>
                                 </div>
 
-
                                 <form action="#" th:action="@{/delete-from-basket/{id}(id=${book.id})}"
-                                      th:object="${book}" method="post"
-                                      class="my-3">
+                                      th:object="${book}" method="post" class="my-3">
                                     <input type="hidden" name="id" th:value="${book.id}">
                                     <input class="btn btn-danger mybtn" type="submit" value="Delete"/>
                                 </form>
