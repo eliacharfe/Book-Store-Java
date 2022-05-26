@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
-
 @Controller
 public class PurchaseController {
 
@@ -23,22 +21,18 @@ public class PurchaseController {
     }
 
     @PostMapping("/showpurchases")
-    public String deleteAllBasket(Model model) {
-        double totalSales = 0;
-        for (Purchase purchase : getPurchaseRepo().findAll()){
-            totalSales += purchase.getAmount();
-        }
-        model.addAttribute("totalSales", totalSales); // getPurchaseRepo().sumAllByAmount()
-        model.addAttribute("purchases", getPurchaseRepo().findAllByOrderByDateTime());
+    public String showPurchases(Model model) {
+        model.addAttribute("totalSales", getPurchaseRepo().sumTotal());
+        model.addAttribute("purchases", getPurchaseRepo().findAllByOrderByDateTime()); //
         return "admin/show-purchases";
     }
 
     @RequestMapping("/save-purchase")
     public String savePurchase(@RequestParam("countBasketItems") String countBasketItems,
-                               @RequestParam("totalAmountPay") String totalAmountPay,
+                               @RequestParam("totalAmountToPay") String totalAmountToPay,
                                @RequestParam("errorMessage") String errorMessage,
                                Model model) {
-        double amount = Double.parseDouble(totalAmountPay);
+        double amount = Double.parseDouble(totalAmountToPay);
         if (amount > 0)
             getPurchaseRepo().save(new Purchase(amount));
 

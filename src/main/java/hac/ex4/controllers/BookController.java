@@ -104,7 +104,7 @@ public class BookController {
     @PostMapping("/search")
     public String search(@ModelAttribute("searchInput") String searchInput, Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
-        model.addAttribute("topFiveOnSale", getBookRepo().findBookByNameContains(searchInput) ); 
+        model.addAttribute("topFiveOnSale", getBookRepo().findBookByNameContains(searchInput) );
         return "user/store";
     }
 
@@ -160,18 +160,17 @@ public class BookController {
         errorMessage = "";
         Book book = getBookRepo().findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
         BasketBook basketBook = basketList.findById(id);
-        Double totalAmount = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
+        Double totalAmountToPay = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
         basketList.delete(id);
         book.setQuantity(book.getQuantity() - 1);
-
         if (book.getQuantity() < 0) {
             book.setQuantity(0);
             basketList.clearAllItemsOfSameKind(id);
             errorMessage = String.format("Sorry... %s is out of stoke. You will not be charged!", book.getName());
-            totalAmount = 0.00;
+            totalAmountToPay = 0.00;
         }
         getBookRepo().save(book);
-        purchaseController.savePurchase(basketList.count().toString(),totalAmount.toString(), errorMessage,  model);
+        purchaseController.savePurchase(basketList.count().toString(),totalAmountToPay.toString(), errorMessage,  model);
         return "user/purchase-item";
     }
 
