@@ -22,10 +22,12 @@
 <!--                        </div>-->
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control  myinput mybtn mr-2 ml-3" type="search" placeholder="Search"
+                <form th:action="@{/search}"  method="post" class="d-flex">
+                        <input  name="searchInput" class="form-control  myinput mybtn mr-2 ml-3"
+                                type="search" id="searchInput" placeholder="Search"
                            aria-label="Search">
                     <button class="btn btn-primary mybtn" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+
                 </form>
                 <a class="nav-link disabled right-text-align mr-auto" href="#" tabindex="-1" aria-disabled="true"></a>
 

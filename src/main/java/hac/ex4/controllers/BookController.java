@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -97,6 +99,13 @@ public class BookController {
         getBookRepo().delete(book);
         model.addAttribute("books", getBookRepo().findAll());
         return "admin/admin";
+    }
+
+    @PostMapping("/search")
+    public String search(@ModelAttribute("searchInput") String searchInput, Model model) {
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("topFiveOnSale", getBookRepo().findBookByNameContains(searchInput) ); 
+        return "user/store";
     }
 
     @PostMapping("/add-to-basket")
