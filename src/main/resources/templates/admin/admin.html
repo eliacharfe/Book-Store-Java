@@ -38,7 +38,7 @@
                             <td th:text="${book.price}"></td>
                             <td th:text="${book.discount}"></td>
                             <td>
-                                <form action="#" th:action="@{/edit}" th:object="${book}" method="post">
+                                <form action="#" th:action="@{/edit/{id}(id=${book.id})}" th:object="${book}" method="post">
                                     <input type="hidden" name="id" th:value="${book.id}">
                                     <span>
                                        <input class="btn btn-primary" type="submit" value="EDIT"/>

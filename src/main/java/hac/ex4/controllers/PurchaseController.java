@@ -1,12 +1,19 @@
 package hac.ex4.controllers;
 
+import hac.ex4.beans.BasketList;
+import hac.ex4.classes.BasketBook;
+import hac.ex4.repo.Book;
 import hac.ex4.repo.Purchase;
 import hac.ex4.repo.PurchaseRepository;
+import hac.ex4.services.BookService;
+import hac.ex4.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 @Controller
 public class PurchaseController {
@@ -15,30 +22,53 @@ public class PurchaseController {
     private String errorMessage = "";
 
     @Autowired
-    private PurchaseRepository purchaseRepository;
-    private PurchaseRepository getPurchaseRepo() {
-        return purchaseRepository;
-    }
+    private PurchaseService purchaseService;
 
+    @Autowired
+    private BookService bookService;
+
+    @Resource(name = "basketBean")
+    private BasketList basketList;
+
+
+    @GetMapping("/showpurchases")
+    public String showPurchasesGET(Model model) {
+        model.addAttribute("totalSales", purchaseService.getTotalAmount());
+        model.addAttribute("purchases", purchaseService.findByDates());
+        return "admin/show-purchases";
+    }
     @PostMapping("/showpurchases")
-    public String showPurchases(Model model) {
-        model.addAttribute("totalSales", getPurchaseRepo().sumTotal());
-        model.addAttribute("purchases", getPurchaseRepo().findAllByOrderByDateTime()); //
+    public String showPurchasesPOST(Model model) {
+        model.addAttribute("totalSales", purchaseService.getTotalAmount());
+        model.addAttribute("purchases", purchaseService.findByDates());
         return "admin/show-purchases";
     }
 
-    @RequestMapping("/save-purchase")
-    public String savePurchase(@RequestParam("countBasketItems") String countBasketItems,
-                               @RequestParam("totalAmountToPay") String totalAmountToPay,
-                               @RequestParam("errorMessage") String errorMessage,
-                               Model model) {
-        double amount = Double.parseDouble(totalAmountToPay);
-        if (amount > 0)
-            getPurchaseRepo().save(new Purchase(amount));
+    @GetMapping("/purchaseitem")
+    public String purchaseItemGET(Model model) {
+        return "error";
+    }
+    @PostMapping("/purchaseitem")
+    public String purchaseItemPOST(@RequestParam("id") long id, Model model) {
+        errorMessage = "";
+        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+        BasketBook basketBook = basketList.findById(id);
+        double totalAmountToPay = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
 
-        model.addAttribute("countBasketItems", countBasketItems);
-        model.addAttribute("totalAmountPay", amount);
-        model.addAttribute("errorMessage", errorMessage);
+        try {
+            basketList.delete(id);
+            book.decreaseQuantity();
+            bookService.saveBook(book);
+            purchaseService.savePurchase(new Purchase(totalAmountToPay));
+        } catch (Exception e) {
+            errorMessage = String.format("Sorry... %s is out of stoke. You will not be charged!", book.getName());
+            totalAmountToPay = 0.00;
+        } finally {
+            model.addAttribute("countBasketItems", basketList.count().toString());
+            model.addAttribute("totalAmountPay", totalAmountToPay);
+            model.addAttribute("errorMessage", errorMessage);
+        }
+
         return "user/purchase-item";
     }
 }
