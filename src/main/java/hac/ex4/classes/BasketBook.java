@@ -60,5 +60,12 @@ public class BasketBook implements Serializable {
         return discount;
     }
 
+    public void increaseQuantityBasketItem(){
+        this.quantityOfSameItemInBasket += 1;
+    }
+
+    public void decreaseQuantityBasketItem(){
+        this.quantityOfSameItemInBasket -= 1;
+    }
 }
 
