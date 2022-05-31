@@ -27,6 +27,18 @@ public class BookService {
     }
 
     @Transactional
+    public void deleteBook(long id) {
+        repository.deleteById(id);
+    }
+
+    @Transactional
+    public void decreaseQuantityBook(long id) {
+        Book book = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+        book.decreaseQuantity();
+        repository.save(book);
+    }
+
+    @Transactional
     public Optional<Book> getBook(long id) {
         return repository.findById(id);
     }

@@ -3,13 +3,9 @@ package hac.ex4.beans;
 import hac.ex4.classes.BasketBook;
 import hac.ex4.repo.Book;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import javax.servlet.annotation.WebListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//@EnableWebMvc
-//@WebListener
 @Component
 public class BasketList implements Serializable {
 

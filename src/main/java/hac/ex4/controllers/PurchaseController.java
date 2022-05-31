@@ -70,5 +70,34 @@ public class PurchaseController {
 
         return "user/purchase-item";
     }
+
+    @PostMapping("/purchase-all-shopping-basket")
+    public String purchaseAllBasketPOST(Model model) {
+        errorMessage = "";
+        double totalAmountToPay = 0.0;
+        try {
+            for (BasketBook basketBook : basketList.getBasketList()){
+                Book book = bookService.getBook(basketBook.id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + basketBook.id));
+                totalAmountToPay += basketBook.getQuantityOfSameItemInBasket() *
+                        (book.getPrice() - book.getPrice() * book.getDiscount() / 100);
+
+                book.setQuantity(book.getQuantity() - basketBook.getQuantityOfSameItemInBasket());
+                bookService.saveBook(book);
+            }
+            basketList.clear();
+            purchaseService.savePurchase(new Purchase(totalAmountToPay));
+        } catch (Exception e) {
+            errorMessage = String.format("Sorry... an item is out of stoke. You will not be charged!");
+            totalAmountToPay = 0.00;
+        } finally {
+            model.addAttribute("countBasketItems", basketList.count().toString());
+            model.addAttribute("totalAmountPay", totalAmountToPay);
+            model.addAttribute("errorMessage", errorMessage);
+        }
+        return "user/purchase-item";
+    }
+
+
+    // purchase-all-shopping-basket
 }
 
