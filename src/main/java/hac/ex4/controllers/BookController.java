@@ -31,17 +31,6 @@ public class BookController {
     @Autowired
     private CustomErrorController customErrorController;
 
-    @GetMapping("/navbar-basket-purchase")
-    public String getNavbarBasketPurchase(Model model) {
-        model.addAttribute("countBasketItems", basketList.count().toString());
-        return "includes/navbar-basket-purchase";
-    }
-    @GetMapping("/navbar")
-    public String getNavbar(Model model) {
-        model.addAttribute("countBasketItems", basketList.count().toString());
-        return "includes/navbar";
-    }
-
     @GetMapping("/")
     public String main(Model model) {
         try {
@@ -53,77 +42,6 @@ public class BookController {
             customErrorController.handleError();
         }
         return "user/store";
-    }
-
-    @GetMapping("/admin")
-    public String adminEditWindow(Model model) {
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-
-    @GetMapping("/addnewbookform")
-    public String addNewBook(Model model) {
-        model.addAttribute("book", new Book("No name",
-                "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg",
-                10, 79.99, 7.0));
-        return "admin/add-book";
-    }
-
-    @GetMapping("/addbook")
-    public String addBookGET(@Valid Book book, BindingResult result, Model model) {
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-    @PostMapping("/addbook")
-    public String addBookPOST(@Valid Book book, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "admin/add-book";
-        }
-        bookService.saveBook(book);
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editBookGET(@PathVariable("id") long id, Model model) {
-        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-        model.addAttribute("book", book);
-        return "admin/update-book";
-    }
-    @PostMapping("/edit/{id}")
-    public String editBookPOST(@PathVariable("id") long id, Model model) {
-        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-        model.addAttribute("book", book);
-        return "admin/update-book";
-    }
-
-    @GetMapping("/update/{id}")
-    public String updateUserGET(Model model) {
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-    @PostMapping("/update/{id}")
-    public String updateUserPOST(@PathVariable("id") long id, @Valid Book book, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            book.setId(id);
-            return "admin/update-book";
-        }
-        bookService.saveBook(book);
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteBookGET(Model model) {
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
-    }
-    @PostMapping("/delete/{id}")
-    public String deleteBookPOST(@PathVariable("id") long id, Model model) {
-        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-        bookService.deleteBook(book);
-        model.addAttribute("books", bookService.getBooks());
-        return "admin/admin";
     }
 
     @GetMapping("/search")

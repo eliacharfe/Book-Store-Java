@@ -30,7 +30,6 @@ public class PurchaseController {
     @Resource(name = "basketBean")
     private BasketList basketList;
 
-
     @GetMapping("/showpurchases")
     public String showPurchasesGET(Model model) {
         model.addAttribute("totalSales", purchaseService.getTotalAmount());
