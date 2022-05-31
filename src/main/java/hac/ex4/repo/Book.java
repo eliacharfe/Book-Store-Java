@@ -84,6 +84,10 @@ public class Book implements Serializable {
         return discount;
     }
 
+    public void decreaseQuantity(){
+        this.quantity -= 1;
+    }
+
 
     @Override
     public String toString() {
