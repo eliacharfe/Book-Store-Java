@@ -19,7 +19,7 @@
                         <div class="mt-auto">
                         <p th:inline="text"><b>[[${book.name}]]</b> </p>
 <!--                        <p class="card-text" th:text="'ID: ' + ${book.id}"></p>-->
-                        <p th:inline="text" >Price: <b class="text-success ">[[${book.price - book.discount * book.price/100}]] &#8362;</b>
+                        <p th:inline="text" >Price: <b class="text-success ">[[${book.price - book.discount * book.price/100}]]</b>
                             <del class="text-danger ml-2 " th:text="${book.price}"></del>
                         </p>
                         <form action="#" th:action="@{/add-to-basket}" th:object="${book}" method="post" class="mt-auto">

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 //@EnableWebMvc
 //@WebListener
 @Component
@@ -26,12 +27,15 @@ public class BasketList implements Serializable {
     public void add (Book book) {
         for (BasketBook basketBook : basketList) {
             if (basketBook.getIdBasket() == book.getId()) {
-                basketBook.increaseQuantityBasketItem();
+//                if (basketBook.getQuantityOfSameItemInBasket() < book.getQuantity() && book.getQuantity() > 0) {
+                    basketBook.setQuantityOfSameItemInBasket(basketBook.getQuantityOfSameItemInBasket() + 1);
+//                }
                 return;
             }
         }
         basketList.add(new BasketBook(book.getId(), book.getName(), book.getImageSrc(),
                 1, book.getPrice(), book.getDiscount()));
+//        return "";
     }
 
     public void clear() {
@@ -41,8 +45,9 @@ public class BasketList implements Serializable {
     public void delete(long idBook) {
         for (BasketBook basketBook : basketList) {
            if (basketBook.getIdBasket() == idBook){
-               basketBook.decreaseQuantityBasketItem();
-               if (basketBook.getQuantityOfSameItemInBasket() == 0){
+               int quantity =  basketBook.getQuantityOfSameItemInBasket() - 1;
+               basketBook.setQuantityOfSameItemInBasket(quantity);
+               if (quantity == 0){
                    basketList.remove(basketBook);
                    break;
                }

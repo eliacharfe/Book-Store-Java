@@ -2,18 +2,15 @@ package hac.ex4.controllers;
 
 import hac.ex4.beans.BasketList;
 import hac.ex4.classes.BasketBook;
-import hac.ex4.listeners.SessionListenerCounter;
 import hac.ex4.repo.Book;
 import hac.ex4.repo.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +30,8 @@ public class BookController {
     @Resource(name = "basketBean")
     private BasketList basketList;
 
-    @Resource(name = "basketBeanApplication")
-    private BasketList appMessages;
-
-    @Resource(name="sessionListenerWithMetrics")
-    private ServletListenerRegistrationBean<SessionListenerCounter> metrics;
-
     @Autowired
     private PurchaseController purchaseController;
-
-    @Autowired
-    private CustomErrorController customErrorController;
 
     @GetMapping("/navbar-basket-purchase")
     public String getNavbarBasketPurchase(Model model) {
@@ -58,14 +46,8 @@ public class BookController {
 
     @GetMapping("/")
     public String main(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("topFiveOnSale", getBookRepo().findFirst5ByOrderByDiscountDesc());
-            return "user/store";
-        }
-        catch (Exception e) {
-            customErrorController.handleError();
-        }
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("topFiveOnSale", getBookRepo().findFirst5ByOrderByDiscountDesc());
         return "user/store";
     }
 
@@ -134,7 +116,7 @@ public class BookController {
         return "user/store";
     }
 
-    @PostMapping("/plus-to-basket-same-item")
+    @PostMapping("/plus-to-basket")
     public String plusToBasket(@RequestParam("id") long id, Model model) {
         addNewItemToBasket(id);
         model.addAttribute("countBasketItems", basketList.count().toString());
@@ -142,7 +124,7 @@ public class BookController {
         return "user/basket-shopping-list";
     }
 
-    @PostMapping("/minus-to-basket-same-item/{id}")
+    @PostMapping("/decrease-item-from-basket/{id}")
     public String decreaseItemFromBasket(@PathVariable("id") long id, Model model) {
         basketList.delete(id);
         model.addAttribute("countBasketItems", basketList.count().toString());
@@ -168,14 +150,8 @@ public class BookController {
 
     @PostMapping("/basketshopping")
     public String basketShoppingList(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        }
-        catch (Exception e){
-            customErrorController.handleError();
-        }
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("basket", basketList.getBasketList());
         return "user/basket-shopping-list";
     }
 
@@ -186,7 +162,7 @@ public class BookController {
         BasketBook basketBook = basketList.findById(id);
         Double totalAmountToPay = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
         basketList.delete(id);
-        book.decreaseQuantity();
+        book.setQuantity(book.getQuantity() - 1);
         if (book.getQuantity() < 0) {
             book.setQuantity(0);
             basketList.clearAllItemsOfSameKind(id);

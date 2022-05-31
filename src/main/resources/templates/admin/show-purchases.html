@@ -11,11 +11,8 @@
             <label>
                 <a class="btn btn-grey mt-3" href="admin" th:href="@{/admin}">Back <i class="fas fa-sign-out-alt"></i></a>
             </label>
-           <div class="text-center">
-            <p th:inline="text"  class="h3">Total Sales: <b class="text-success ">[[${totalSales}]]</b>
-           </div>
 
-            <p class="h4 mt-3 mb-1">List of Purchases:</p>
+            <h3 class="mt-3 mb-4">List of Purchases ordered by dates:</h3>
 
             <div th:switch="${purchases}">
                 <h2 th:case="null">No books yet!</h2>
@@ -39,8 +36,7 @@
                         </tbody>
                     </table>
 
-
-                    </p>
+                    <h4 th:text="'Total Sales: ' + ${totalSales}"></h4>
                 </div>
                 <!--            <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
             </div>
