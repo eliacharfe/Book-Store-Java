@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 @Controller
 public class BookController {
 
+    private final String INVALID_ID = "Invalid book Id:";
+
     @Value("${store.errorMessage}")
     private String errorMessage = "";
 
@@ -26,12 +28,22 @@ public class BookController {
     @Autowired
     private CustomErrorController customErrorController;
 
+    public String storePage(Model model) {
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
+        return "store";
+    }
+
+    public String basketPage(Model model) {
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("basket", basketList.getBasketList());
+        return "basket-shopping-list";
+    }
+
     @GetMapping("/")
     public String main(Model model) {
         try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-            return "user/store";
+            return storePage(model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
@@ -42,7 +54,7 @@ public class BookController {
         try {
             model.addAttribute("countBasketItems", basketList.count().toString());
             model.addAttribute("topFiveOnSale", bookService.findByNameContains(searchInput));
-            return "user/store";
+            return "store";
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
@@ -50,33 +62,19 @@ public class BookController {
 
     @PostMapping("/search")
     public String searchPOST(@ModelAttribute("searchInput") String searchInput, Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("topFiveOnSale", bookService.findByNameContains(searchInput));
-            return "user/store";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+        return searchGET(searchInput, model);
     }
 
     @GetMapping("/add-to-basket")
-    public String addToBasket(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-            return "user/store";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+    public String addToBasketGET(Model model) {
+        return storePage(model);
     }
 
     @PostMapping("/add-to-basket")
     public String addToBasketPOST(@RequestParam("id") long id, Model model) {
         try {
             addNewItemToBasket(id);
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-            return "user/store";
+            return addToBasketGET(model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
@@ -84,22 +82,14 @@ public class BookController {
 
     @GetMapping("/plus-to-basket-same-item")
     public String plusToBasketGET(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+        return basketPage(model);
     }
 
     @PostMapping("/plus-to-basket-same-item")
     public String plusToBasketPOST(@RequestParam("id") long id, Model model) {
         try {
             addNewItemToBasket(id);
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
+            return plusToBasketGET(model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
@@ -107,98 +97,65 @@ public class BookController {
 
     @GetMapping("/minus-to-basket-same-item/{id}")
     public String decreaseItemFromBasketGET(@PathVariable("id") long id, Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+        return basketPage(model);
     }
 
     @PostMapping("/minus-to-basket-same-item/{id}")
     public String decreaseItemFromBasketPOST(@PathVariable("id") long id, Model model) {
         try {
             basketList.delete(id);
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
+            return decreaseItemFromBasketGET(id, model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
     }
 
     @GetMapping("/delete-from-basket/{id}")
-    public String deleteFromBasketGET(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+    public String deleteFromBasketGET(@PathVariable("id") long id, Model model) {
+        return basketPage(model);
     }
 
     @PostMapping("/delete-from-basket/{id}")
     public String deleteFromBasketPOST(@PathVariable("id") long id, Model model) {
         try {
             basketList.clearAllItemsOfSameKind(id);
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
+            return deleteFromBasketGET(id, model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
     }
 
     @GetMapping("/empty-basket")
-    public String deleteAllBasketGet(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        } catch (Exception e) {
-            return customErrorController.handleError(e.getMessage());
-        }
+    public String deleteAllBasketGET(Model model) {
+        return basketPage(model);
     }
 
     @PostMapping("/empty-basket")
     public String deleteAllBasketPOST(Model model) {
         try {
             basketList.clear();
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
+            return deleteAllBasketGET(model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
     }
 
-
     @GetMapping("/basketshopping")
     public String basketShoppingListGET(Model model) {
-        try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
-        } catch (Exception e) {
-           return customErrorController.handleError(e.getMessage());
-        }
+        return basketPage(model);
     }
 
     @PostMapping("/basketshopping")
     public String basketShoppingListPOST(Model model) {
         try {
-            model.addAttribute("countBasketItems", basketList.count().toString());
-            model.addAttribute("basket", basketList.getBasketList());
-            return "user/basket-shopping-list";
+            return basketShoppingListGET(model);
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }
     }
 
     void addNewItemToBasket(long id) {
-        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+        Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException(INVALID_ID + id));
         basketList.add(book);
     }
 }

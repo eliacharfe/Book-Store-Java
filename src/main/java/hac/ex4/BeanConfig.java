@@ -5,10 +5,11 @@ import hac.ex4.listeners.SessionListenerCounter;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.annotation.ApplicationScope;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.context.annotation.SessionScope;
 
 @Configuration
+//@EnableGlobalMethodSecurity
 public class BeanConfig {
 
     @Bean
