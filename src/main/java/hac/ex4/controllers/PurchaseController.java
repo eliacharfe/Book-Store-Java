@@ -4,7 +4,6 @@ import hac.ex4.beans.BasketList;
 import hac.ex4.classes.BasketBook;
 import hac.ex4.repo.Book;
 import hac.ex4.repo.Purchase;
-import hac.ex4.repo.PurchaseRepository;
 import hac.ex4.services.BookService;
 import hac.ex4.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,7 @@ public class PurchaseController {
             bookService.saveBook(book);
             purchaseService.savePurchase(new Purchase(totalAmountToPay));
         } catch (Exception e) {
+            basketList.clearAllItemsOfSameKind(id);
             errorMessage = String.format("Sorry... %s is out of stoke. You will not be charged!", book.getName());
             totalAmountToPay = 0.00;
         } finally {
@@ -87,7 +87,7 @@ public class PurchaseController {
             basketList.clear();
             purchaseService.savePurchase(new Purchase(totalAmountToPay));
         } catch (Exception e) {
-            errorMessage = String.format("Sorry... an item is out of stoke. You will not be charged!");
+            errorMessage = "Sorry... an item is out of stoke. You will not be charged!";
             totalAmountToPay = 0.00;
         } finally {
             model.addAttribute("countBasketItems", basketList.count().toString());
@@ -96,8 +96,5 @@ public class PurchaseController {
         }
         return "user/purchase-item";
     }
-
-
-    // purchase-all-shopping-basket
 }
 

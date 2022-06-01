@@ -1,6 +1,5 @@
 package hac.ex4.controllers;
 
-import hac.ex4.beans.BasketList;
 import hac.ex4.repo.Book;
 import hac.ex4.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @Controller
@@ -68,7 +65,7 @@ public class AdminController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateUserGET(Model model) {
+    public String updateUserGET(@PathVariable("id") long id, Model model) {
         model.addAttribute("books", bookService.getBooks());
         return "admin/admin";
     }
@@ -84,7 +81,7 @@ public class AdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBookGET(Model model) {
+    public String deleteBookGET(@PathVariable("id") long id, Model model) {
         model.addAttribute("books", bookService.getBooks());
         return "admin/admin";
     }

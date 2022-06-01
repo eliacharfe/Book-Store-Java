@@ -35,8 +35,8 @@ public class Book implements Serializable {
     public Book() {}
 
     public Book(String name, String imageSrc, int quantity, double price, double discount) {
-        this.name = name;
-        this.imageSrc = imageSrc;
+        this.name = name.trim();
+        this.imageSrc = imageSrc.trim();
         this.quantity = quantity;
         this.price = price;
         this.discount = discount;

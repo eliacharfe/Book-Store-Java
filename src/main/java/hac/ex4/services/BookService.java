@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,17 +25,17 @@ public class BookService {
         repository.delete(book);
     }
 
-    @Transactional
-    public void deleteBook(long id) {
-        repository.deleteById(id);
-    }
-
-    @Transactional
-    public void decreaseQuantityBook(long id) {
-        Book book = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-        book.decreaseQuantity();
-        repository.save(book);
-    }
+//    @Transactional
+//    public void deleteBook(long id) {
+//        repository.deleteById(id);
+//    }
+//
+//    @Transactional
+//    public void decreaseQuantityBook(long id) {
+//        Book book = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
+//        book.decreaseQuantity();
+//        repository.save(book);
+//    }
 
     @Transactional
     public Optional<Book> getBook(long id) {
@@ -49,7 +48,7 @@ public class BookService {
     }
 
     @Transactional
-    public List<Book> findTop5OnSales(){
+    public List<Book> findTop5onSales(){
         return repository.findFirst5ByOrderByDiscountDesc();
     }
 
