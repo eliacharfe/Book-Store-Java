@@ -89,7 +89,7 @@ public class PurchaseController {
         double totalAmountToPay = 0.0;
         try {
             for (BasketBook basketBook : basketList.getBasketList()){
-                Book book = bookService.getBook(basketBook.id).orElseThrow(() -> new IllegalArgumentException(INVALID_ID + basketBook.id));
+                Book book = bookService.getBook(basketBook.getIdBasket()).orElseThrow(() -> new IllegalArgumentException(INVALID_ID + basketBook.getIdBasket()));
                 totalAmountToPay += basketBook.getQuantityOfSameItemInBasket() *
                         (book.getPrice() - book.getPrice() * book.getDiscount() / 100);
 

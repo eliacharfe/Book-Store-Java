@@ -19,7 +19,7 @@ public class Book implements Serializable {
     @NotEmpty(message = "Name is mandatory")
     private String name;
 
-   // @NotEmpty(value = IMAGE_URL)
+    @NotEmpty(message = "Image source is required")
     private String imageSrc;
 
     @Min(value = 0, message = "Quantity should be greater than or equal to 0")

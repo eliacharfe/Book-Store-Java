@@ -15,6 +15,7 @@ import javax.validation.Valid;
 @Controller
 public class AdminController {
 
+    private final String DEFAULT_IMAGE_PATH = "/default_book_cover_2015.jpg";
     private final String INVALID_ID = "Invalid book Id:";
 
     @Autowired
@@ -42,9 +43,7 @@ public class AdminController {
     @GetMapping("/addnewbookform")
     public String addNewBook(Model model) {
         try {
-            model.addAttribute("book", new Book("No name",
-                    "https://islandpress.org/sites/default/files/default_book_cover_2015.jpg",
-                    10, 79.99, 7.0));
+            model.addAttribute("book", new Book("No name", DEFAULT_IMAGE_PATH, 10, 79.99, 7.0));
             return "admin/add-book";
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());

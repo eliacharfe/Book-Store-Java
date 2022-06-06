@@ -49,9 +49,7 @@ public class BasketBook implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
-    public double getPrice() {
-        return price;
-    }
+    public double getPrice() {return price;}
 
     public void setDiscount(double discount) {
         this.discount = discount;
