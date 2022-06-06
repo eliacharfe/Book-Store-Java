@@ -13,22 +13,30 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 @WebListener
 public class SessionListenerCounter implements HttpSessionListener {
+
+    /** Count active sessions. */
     private final AtomicInteger activeSessions;
 
+    /** Constructor of session listener counter. */
     public SessionListenerCounter() {
         super();
         activeSessions = new AtomicInteger();
     }
 
-    public int getTotalActiveSession() {
-        return activeSessions.get();
-    }
-
+    /**
+     * Detect when a new session is created.
+     * @param event - session event.
+     */
     public void sessionCreated(final HttpSessionEvent event) {
         activeSessions.incrementAndGet();
         System.out.println("++ Total active session are: " + activeSessions.get());
 
     }
+
+    /**
+     * Detect when a new session is destroyed.
+     * @param event - session event.
+     */
     public void sessionDestroyed(final HttpSessionEvent event) {
         activeSessions.decrementAndGet();
         System.out.println("-- Total active session are: " + activeSessions.get());

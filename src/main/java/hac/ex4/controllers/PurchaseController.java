@@ -15,25 +15,40 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * Controller that handle all purchases (user + admin)
+ */
 @Controller
 public class PurchaseController {
 
+    /** Error message - invalid book. */
     private final String INVALID_ID = "Invalid book Id:";
+    /** Error message - out of stoke */
     private final String OUT_OF_STOKE  = "Sorry... an item is out of stoke. You will not be charged!";
+    /** Empty string */
     private final String EMPTY = "";
 
+    /** We inject a property from the application.properties  file */
     @Value("${store.errorMessage}")
     private String errorMessage = EMPTY;
 
+    /** Service purchase (for transaction). */
     @Autowired
     private PurchaseService purchaseService;
 
+    /** Service book (for transaction). */
     @Autowired
     private BookService bookService;
 
+    /** The basket list */
     @Resource(name = "basketBean")
     private BasketList basketList;
 
+    /**
+     * Implementation of GET request (see the POST route that correspond).
+     * @param model - The model for view.
+     * @return - show purchases page.
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/showpurchases")
     public String showPurchasesGET(Model model) {
@@ -41,16 +56,35 @@ public class PurchaseController {
         model.addAttribute("purchases", purchaseService.findByDates());
         return "admin/show-purchases";
     }
+
+    /**
+     * POST request to show purchases (only for admin option).
+     * @param model - The model for view.
+     * @return - show purchases page.
+     */
     @PostMapping("/showpurchases")
     public String showPurchasesPOST(Model model) {
         return showPurchasesGET(model);
     }
 
+    /**
+     * Implementation of GET request (see the POST route that correspond).
+     * @param model - The model for view.
+     * @return - Main store page.
+     */
     @GetMapping("/purchaseitem")
     public String purchaseItemGET(Model model) {
-        return "error";
+        model.addAttribute("countBasketItems", basketList.count().toString());
+        model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
+        return "store";
     }
 
+    /**
+     * POST req to purchase a single book in the basket book.
+     * @param id - id of the book to purchase.
+     * @param model - The model for view.
+     * @return - Notification page of the purchase (if succeeded or not)
+     */
     @PostMapping("/purchaseitem")
     public String purchaseItemPOST(@RequestParam("id") long id, Model model) {
         errorMessage = EMPTY;
@@ -59,12 +93,12 @@ public class PurchaseController {
         double totalAmountToPay = basketBook.getPrice() - basketBook.getPrice() * basketBook.getDiscount() / 100;
 
         try {
-            basketList.delete(id);
+            basketList.decreaseBook(id);
             book.decreaseQuantity();
             bookService.saveBook(book);
             purchaseService.savePurchase(new Purchase(totalAmountToPay));
         } catch (Exception e) {
-            basketList.clearAllItemsOfSameKind(id);
+            basketList.deleteBook(id);
             errorMessage = String.format("Sorry... %s is out of stoke. You will not be charged!",
                     book.getName());
             totalAmountToPay = 0.00;
@@ -76,6 +110,11 @@ public class PurchaseController {
         return "purchase-item";
     }
 
+    /**
+     * Implementation of GET request (see the POST route that correspond).
+     * @param model - The model for view.
+     * @return - Main store page.
+     */
     @GetMapping("/purchase-all-shopping-basket")
     public String purchaseAllBasketGET(Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
@@ -83,6 +122,11 @@ public class PurchaseController {
         return "store";
     }
 
+    /**
+     * POST req to purchase all the books in the basket book.
+     * @param model - The model for view.
+     * @return - Notification page of the purchase (if succeeded or not).
+     */
     @PostMapping("/purchase-all-shopping-basket")
     public String purchaseAllBasketPOST(Model model) {
         errorMessage = EMPTY;

@@ -7,9 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.SessionScope;
 
+/**
+ * Configuration bean class.
+ */
 @Configuration
 public class BeanConfig {
 
+    /**
+     * Declaration of session counter.
+     * @return - new listener.
+     */
     @Bean
     public ServletListenerRegistrationBean<SessionListenerCounter> sessionListenerWithMetrics() {
         ServletListenerRegistrationBean<SessionListenerCounter> listenerRegBean = new ServletListenerRegistrationBean<>();
@@ -18,6 +25,10 @@ public class BeanConfig {
         return listenerRegBean;
     }
 
+    /**
+     * Declaration of session bean.
+     * @return - new Basket book list.
+     */
     @Bean
     @SessionScope
     //@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)

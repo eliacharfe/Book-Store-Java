@@ -9,11 +9,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Configure the application
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 
+    /**
+     * Configure type of users (usernames + passwords).
+     * @param auth - AuthenticationManagerBuilder
+     * @throws Exception - The exception thrown in case of an error.
+     */
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -27,6 +35,11 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
 //                .withUser("user3").password(encoder.encode("user")).roles("USER");
     }
 
+    /**
+     * Configure security in app.
+     * @param http - HttpSecurity.
+     * @throws Exception - The exception thrown in case of an error.
+     */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
