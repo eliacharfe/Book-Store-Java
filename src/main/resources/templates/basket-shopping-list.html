@@ -18,13 +18,12 @@
             </form>
 
             <label class="float-right my-3">
-                <form action="#" th:action="@{/purchase-all-shopping-basket/}" method="post" >
+                <form action="#" th:action="@{/purchase-all-shopping-basket/}" method="post"
+                      th:if="${basket.size() > 0}">
                     <input class="btn btn-success" type="submit" value="Purchase all"/>
                     <span><i class="fa fa-credit-card"></i></span>
                 </form>
-
             </label>
-            <!--            <h5 th:if="${errorMessage != ''}" th:text="${errorMessage}" class="alert alert-danger mt-3"></h5>-->
 
             <div th:switch="${basket}">
                 <h2 th:case="null">No books yet!</h2>
@@ -77,13 +76,10 @@
                                     <input class="btn btn-danger mybtn" type="submit" value="Delete"/>
                                 </form>
                             </td>
-
                         </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <!--            <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
             </div>
         </div>
     </div>

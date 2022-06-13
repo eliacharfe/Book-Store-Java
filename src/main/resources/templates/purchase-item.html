@@ -10,13 +10,10 @@
         <div class="col-xl-3 col-md-3 mt-4"></div>
         <div class="col-xl-6 col-md-6">
             <h1 th:if="${errorMessage == ''}" class="my-5">Thank you for your purchase!</h1>
-
             <h5 th:if="${errorMessage != ''}" th:text="${errorMessage}" class="alert alert-danger mt-3"></h5>
 
             <h4 class="mb-4" th:inline="text" >The Total Amount of the Payment is:
                 <b class="text-info">[[${totalAmountPay}]]</b> </h4>
-<!--            <h4 th:text="'The Total Amount of the payement is: ' + ${totalAmountPay}"></h4>-->
-
             <form action="#" th:action="@{/basketshopping}" method="post">
                 <input type="hidden" name="basketBooksItems">
                 <span class="mr-2 mt-3">
@@ -29,7 +26,6 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-3 mt-4"></div>
-
     </div>
 </div>
 </div>

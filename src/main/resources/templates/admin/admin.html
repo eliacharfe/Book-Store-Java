@@ -47,7 +47,6 @@
                                 </form>
                             </td>
                             <td>
-
                                 <form action="#" th:action="@{/delete/{id}(id=${book.id})}" th:object="${book}" method="post">
                                     <input type="hidden" name="id" th:value="${book.id}">
                                     <span>
@@ -55,16 +54,12 @@
                                       <i class="fa fa-trash" aria-hidden="true"></i>
                                    </span>
                                 </form>
-                                <!--                                <a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-primary"><i-->
-                                <!--                                                                    class="fas fa-user-times ml-2"></i></a>-->
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--            <p class="my-5"><a href="/signup" class="btn btn-primary"><i class="fas fa-user-plus ml-2"></i></a></p>-->
             </div>
-
         </div>
 
 

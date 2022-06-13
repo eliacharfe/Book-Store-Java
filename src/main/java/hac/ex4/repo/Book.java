@@ -37,7 +37,7 @@ public class Book implements Serializable {
     private double price;
 
     /** The discount on the book. */
-    @Min(value = 1, message = "Discount percentage should be greater than or equal to 0 ")
+    @Min(value = 0, message = "Discount percentage should be greater than or equal to 0 ")
     @Max(value = 100, message = "Discount percentage should be less than or equal to 100 ")
     private double discount;
 

@@ -59,8 +59,8 @@ public class AdminController {
      * @param model - The model for view.
      * @return - Add book form page.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/addnewbookform")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addNewBook(Model model) {
         try {
             model.addAttribute("book", new Book("No name", DEFAULT_IMAGE_PATH, 10, 79.99, 7.0));
@@ -75,8 +75,8 @@ public class AdminController {
      * @param model - The model for view.
      * @return - Main admin page.
      */
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     @GetMapping("/addbook")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public String addBookGET(Model model) {
         return mainAdminPage(model);
     }
@@ -108,8 +108,8 @@ public class AdminController {
      * @param model - The model for view.
      * @return - Update form page.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/edit/{id}")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public String editBookGET(@PathVariable("id") long id, Model model) {
         try {
             Book book = bookService.getBook(id).orElseThrow(() -> new IllegalArgumentException(INVALID_ID + id));
@@ -137,8 +137,8 @@ public class AdminController {
      * @param model - The model for view.
      * @return - Main admin page.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/update/{id}")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public String updateUserGET(@PathVariable("id") long id, Model model) {
             return mainAdminPage(model);
     }
@@ -173,8 +173,8 @@ public class AdminController {
      * @param model - The model for view.
      * @return - Main admin page.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/delete/{id}")
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public String deleteBookGET(@PathVariable("id") long id, Model model) {
             return mainAdminPage(model);
     }
