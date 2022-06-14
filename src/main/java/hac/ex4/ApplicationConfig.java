@@ -26,7 +26,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.inMemoryAuthentication()
-                .withUser("admin").password(encoder.encode("password")).roles("ADMIN")
+                .withUser("a").password(encoder.encode("p")).roles("ADMIN")
                 .and()
                 .withUser("u1").password(encoder.encode("p")).roles("USER")
                 .and()
