@@ -38,7 +38,7 @@ public class BookController {
     public String storePage(Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-        return "store";
+        return "store/store";
     }
 
     /**
@@ -49,7 +49,7 @@ public class BookController {
     public String basketPage(Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("basket", basketList.getBasketList());
-        return "basket-shopping-list";
+        return "store/basket-shopping-list";
     }
 
     /**
@@ -77,7 +77,7 @@ public class BookController {
         try {
             model.addAttribute("countBasketItems", basketList.count().toString());
             model.addAttribute("topFiveOnSale", bookService.findByNameContains(searchInput));
-            return "store";
+            return "store/store";
         } catch (Exception e) {
             return customErrorController.handleError(e.getMessage());
         }

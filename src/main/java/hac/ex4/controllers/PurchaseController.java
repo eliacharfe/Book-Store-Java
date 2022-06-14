@@ -49,8 +49,8 @@ public class PurchaseController {
      * @param model - The model for view.
      * @return - show purchases page.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/showpurchases")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String showPurchasesGET(Model model) {
         model.addAttribute("totalSales", purchaseService.getTotalAmount());
         model.addAttribute("purchases", purchaseService.findByDates());
@@ -76,7 +76,7 @@ public class PurchaseController {
     public String purchaseItemGET(Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-        return "store";
+        return "store/store";
     }
 
     /**
@@ -107,7 +107,7 @@ public class PurchaseController {
             model.addAttribute("totalAmountPay", totalAmountToPay);
             model.addAttribute("errorMessage", errorMessage);
         }
-        return "purchase-item";
+        return "store/purchase-item";
     }
 
     /**
@@ -119,7 +119,7 @@ public class PurchaseController {
     public String purchaseAllBasketGET(Model model) {
         model.addAttribute("countBasketItems", basketList.count().toString());
         model.addAttribute("topFiveOnSale", bookService.findTop5onSales());
-        return "store";
+        return "store/store";
     }
 
     /**
@@ -150,7 +150,7 @@ public class PurchaseController {
             model.addAttribute("totalAmountPay", totalAmountToPay);
             model.addAttribute("errorMessage", errorMessage);
         }
-        return "purchase-item";
+        return "store/purchase-item";
     }
 }
 

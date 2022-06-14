@@ -468,7 +468,22 @@ h1,h2,h3,h4{
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,102,203, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-
+.table-fixed thead > tr, .table-fixed tbody > tr {
+    display: flex;
+    justify-content: space-around;
+    flex: 0 0 auto;
+}
+.table-fixed thead > tr th, .table-fixed tbody > tr th, .table-fixed thead > tr td, .table-fixed tbody > tr td {
+    flex: 1;
+}
+.table-fixed tbody {
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+}
+.table-lock-height > tbody {
+    height: 60vh;
+}
 
 form .error {
     color: #ff0000;

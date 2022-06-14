@@ -19,7 +19,7 @@ public class CustomErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(String error) {
         System.out.println(error);
-        return "error";
+        return "errors/error";
     }
 
 }

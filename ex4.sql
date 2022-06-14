@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: יוני 13, 2022 בזמן 11:51 AM
+-- Generation Time: יוני 14, 2022 בזמן 01:01 PM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -41,19 +41,19 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`id`, `discount`, `image_src`, `name`, `price`, `quantity`) VALUES
-(1, 15, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260858.jpg', 'Les Miserables', 72, 30),
+(1, 15, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260858.jpg', 'Les Miserables', 72, 28),
 (7, 8, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0999/9780099981909.jpg', 'Crime and punishement', 81, 3),
 (8, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0072/9780007270613.jpg', 'The Hobbit', 79.99, 29),
-(52, 12, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0620/9780062073501.jpg', 'Murder in the Orient Express', 63, 31),
-(53, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/5903/9780590353427.jpg', 'Harry Potter', 70, 42),
+(52, 12, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0620/9780062073501.jpg', 'Murder in the Orient Express', 63, 23),
+(53, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/5903/9780590353427.jpg', 'Harry Potter', 70, 32),
 (54, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/7967/9781796703405.jpg', 'Angles and Demonds', 64, 27),
 (75, 9, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/0887/9781088797242.jpg', 'Introduction to Java Spring Boot', 83, 23),
-(93, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260124.jpg', 'Oliver Twist', 47, 54),
-(94, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/1413/9780141332499.jpg', 'The Great Adventures of Sherlock Holmes', 59, 24),
-(95, 7, '/default_book_cover_2015.jpg', 'No name', 79.99, 10),
+(93, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260124.jpg', 'Oliver Twist', 47, 46),
+(94, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/1413/9780141332499.jpg', 'The Great Adventures of Sherlock Holmes', 59, 18),
 (96, 8, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853261589.jpg', 'The Little Prince', 64, 19),
 (99, 7, '/default_book_cover_2015.jpg', 'No name', 79.99, 10),
-(100, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9782/0358/9782035834201.jpg', 'Le Malade Imaginaire', 74.99, 10);
+(100, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9782/0358/9782035834201.jpg', 'Le Malade Imaginaire', 74.99, 10),
+(117, 7, '/default_book_cover_2015.jpg', 'No name', 79.99, 10);
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(101),
+(118),
 (1);
 
 -- --------------------------------------------------------
@@ -150,7 +150,22 @@ INSERT INTO `purchase` (`id`, `amount`, `date_time`) VALUES
 (89, 56.07, '2022-06-06 09:43:26.000000'),
 (90, 176.95000000000002, '2022-06-06 09:43:34.000000'),
 (97, 221.13, '2022-06-06 12:31:38.000000'),
-(98, 293.4, '2022-06-06 17:28:21.000000');
+(98, 293.4, '2022-06-06 17:28:21.000000'),
+(102, 173.88, '2022-06-14 08:56:32.000000'),
+(103, 219.60000000000002, '2022-06-14 08:58:22.000000'),
+(104, 153.18, '2022-06-14 09:02:16.000000'),
+(105, 55.44, '2022-06-14 09:02:42.000000'),
+(106, 55.44, '2022-06-14 09:08:54.000000'),
+(107, 63, '2022-06-14 09:08:58.000000'),
+(108, 126, '2022-06-14 09:15:24.000000'),
+(109, 63, '2022-06-14 09:15:33.000000'),
+(110, 126, '2022-06-14 09:16:14.000000'),
+(111, 55.44, '2022-06-14 10:03:44.000000'),
+(112, 147.6, '2022-06-14 10:16:15.000000'),
+(113, 116.1, '2022-06-14 10:18:05.000000'),
+(114, 114.30000000000001, '2022-06-14 10:20:17.000000'),
+(115, 55.44, '2022-06-14 10:55:13.000000'),
+(116, 328.5, '2022-06-14 10:56:50.000000');
 
 --
 -- Indexes for dumped tables

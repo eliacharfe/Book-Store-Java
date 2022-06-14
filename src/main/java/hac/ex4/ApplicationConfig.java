@@ -26,7 +26,13 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         auth.inMemoryAuthentication()
-                .withUser("admin").password(encoder.encode("password")).roles("ADMIN");
+                .withUser("admin").password(encoder.encode("password")).roles("ADMIN")
+                .and()
+                .withUser("u1").password(encoder.encode("p")).roles("USER")
+                .and()
+                .withUser("u2").password(encoder.encode("p")).roles("USER")
+                .and()
+                .withUser("u3").password(encoder.encode("p")).roles("USER");
     }
 
     /**
@@ -40,7 +46,7 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //.loginPage("/login") // <=============== uncomment this for a custom login page (see also the controller)
                 //.loginProcessingUrl("/login")
-                .defaultSuccessUrl("/admin", true)
+//                .defaultSuccessUrl("/admin", true)
                 //.failureUrl("/login-error") // <===============  uncomment this for a custom login page (see also the controller)
                 .and()
                 .logout()
@@ -48,10 +54,11 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user/**").hasRole("USER")
-                // custom error page for exceptions
+//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/purchaseitem", "/purchase-all-shopping-basket").hasAuthority("USER")
+//                .antMatchers("/**").permitAll()
                 .and()
                 .exceptionHandling()
-                .accessDeniedPage("/403.html");
+                .accessDeniedPage("/errors/403.html");
     }
 }
