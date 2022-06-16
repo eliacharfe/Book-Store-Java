@@ -44,21 +44,25 @@ public class ApplicationConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .formLogin()
-                //.loginPage("/login") // <=============== uncomment this for a custom login page (see also the controller)
-                //.loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/admin", true)
-                //.failureUrl("/login-error") // <===============  uncomment this for a custom login page (see also the controller)
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/purchaseitem", "/purchase-all-shopping-basket").hasAuthority("USER")
-//                .antMatchers("/**").permitAll()
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/errors/403.html");
     }
 }
+
+
+
+//.loginPage("/login") // <=============== uncomment this for a custom login page (see also the controller)
+//.loginProcessingUrl("/login")
+//                .defaultSuccessUrl("/admin", true)
+//.failureUrl("/login-error") // <===============  uncomment this for a custom login page (see also the controller)
+
+//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/purchaseitem", "/purchase-all-shopping-basket").hasAuthority("USER")
+//                .antMatchers("/**").permitAll()
