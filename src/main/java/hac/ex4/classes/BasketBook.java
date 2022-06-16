@@ -47,24 +47,6 @@ public class BasketBook implements Serializable {
         return id;
     }
 
-//    public void setNameBasket(String name) {
-//        this.name = name;
-//    }
-//    public String getNameBasket() {
-//        return name;
-//    }
-//
-//    public void setImageSrc(String imageSrc) {
-//        this.imageSrc = imageSrc;
-//    }
-//    public String getImageSrc() {
-//        return imageSrc;
-//    }
-
-//    public void setQuantityOfSameItemInBasket(int quantityOfSameItemInBasket){
-//        this.quantityOfSameItemInBasket = quantityOfSameItemInBasket;
-//    }
-
     /**
      * Get quantity of same book in basket.
      * @return - quantity of same book in basket.
@@ -73,19 +55,11 @@ public class BasketBook implements Serializable {
         return quantityOfSameItemInBasket;
     }
 
-//    public void setPrice(double price) {
-//        this.price = price;
-//    }
-
     /**
      * Get price of book.
      * @return - The price.
      */
     public double getPrice() {return price;}
-
-//    public void setDiscount(double discount) {
-//        this.discount = discount;
-//    }
 
     /**
      * Get the discount of the book.
@@ -108,9 +82,5 @@ public class BasketBook implements Serializable {
     public void decreaseQuantityBasketItem(){
         this.quantityOfSameItemInBasket -= 1;
     }
-
-//    public void decreaseQuantityBasketItem(int value){
-//        this.quantityOfSameItemInBasket -= value;
-//    }
 }
 

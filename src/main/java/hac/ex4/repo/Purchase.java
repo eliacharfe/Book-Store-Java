@@ -65,13 +65,12 @@ public class Purchase implements Serializable {
     }
 
     /**
-     * Get the date.
-     * @return - The date.
+     * Get the local date.
+     * @return - The local date.
      */
     public LocalDateTime getDateTime() {
         return dateTime;
     }
-
 
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: יוני 14, 2022 בזמן 01:01 PM
+-- Generation Time: יוני 16, 2022 בזמן 10:43 AM
 -- גרסת שרת: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -42,18 +42,20 @@ CREATE TABLE `book` (
 
 INSERT INTO `book` (`id`, `discount`, `image_src`, `name`, `price`, `quantity`) VALUES
 (1, 15, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260858.jpg', 'Les Miserables', 72, 28),
-(7, 8, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0999/9780099981909.jpg', 'Crime and punishement', 81, 3),
+(7, 8, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0999/9780099981909.jpg', 'Crime and punishment', 81, 3),
 (8, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0072/9780007270613.jpg', 'The Hobbit', 79.99, 29),
 (52, 12, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/0620/9780062073501.jpg', 'Murder in the Orient Express', 63, 23),
-(53, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/5903/9780590353427.jpg', 'Harry Potter', 70, 32),
+(53, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/5903/9780590353427.jpg', 'Harry Potter', 70, 32),
 (54, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/7967/9781796703405.jpg', 'Angles and Demonds', 64, 27),
 (75, 9, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/0887/9781088797242.jpg', 'Introduction to Java Spring Boot', 83, 23),
 (93, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853260124.jpg', 'Oliver Twist', 47, 46),
 (94, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/1413/9780141332499.jpg', 'The Great Adventures of Sherlock Holmes', 59, 18),
 (96, 8, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/8532/9781853261589.jpg', 'The Little Prince', 64, 19),
-(99, 7, '/default_book_cover_2015.jpg', 'No name', 79.99, 10),
-(100, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9782/0358/9782035834201.jpg', 'Le Malade Imaginaire', 74.99, 10),
-(117, 7, '/default_book_cover_2015.jpg', 'No name', 79.99, 10);
+(100, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9782/0358/9782035834201.jpg', 'Le Malade Imaginaire', 74.99, 8),
+(118, 15, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/4390/9780439023528.jpg', 'The Hunger Games', 70, 11),
+(119, 12, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9780/7432/9780743273565.jpg', 'The Great Gatsby', 62, 17),
+(121, 10, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/4516/9781451621174.jpg', 'Catch-22', 56, 9),
+(122, 0, 'https://d1w7fb2mkkr3kw.cloudfront.net/assets/images/book/mid/9781/9254/9781925498813.jpg', 'The Kites', 119.99, 7);
 
 -- --------------------------------------------------------
 
@@ -70,7 +72,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(118),
+(123),
 (1);
 
 -- --------------------------------------------------------
